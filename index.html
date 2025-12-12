@@ -307,11 +307,23 @@
     <source src="https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/shvbgpagxi/01%20Main%20Theme.mp3" type="audio/mpeg">
     Il tuo browser non supporta l'audio.
   </audio>
+  <audio id="startSound">
+    <source src="inizio.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="postAnswerSound">
+    <source src="post_risposta.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="afterConfirmSound">
+    <source src="dopo_la_conferma.mp3" type="audio/mpeg">
+  </audio>
   <script>
     window.addEventListener("load", () => {
       const bg = document.getElementById("bgMusic");
       bg.volume = 0.4;
       bg.play().catch(e => console.log("Interazione richiesta per il sottofondo."));
+      const startSound = document.getElementById("startSound");
+      startSound.volume = 0.6;
+      startSound.play().catch(e => console.log("Interazione richiesta per il suono di inizio."));
       initBalls();
       drawBalls();
     });
@@ -362,6 +374,20 @@
     function playDefinitiveSound() {
       let audio = new Audio("https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/awanowgypj/15%20%242%2C000%20Final%20Answer-.mp3");
       audio.volume = 0.4;
+      audio.play();
+    }
+
+    function playPostAnswerSound() {
+      const audio = document.getElementById("postAnswerSound");
+      audio.currentTime = 0;
+      audio.volume = 0.6;
+      audio.play();
+    }
+
+    function playAfterConfirmSound() {
+      const audio = document.getElementById("afterConfirmSound");
+      audio.currentTime = 0;
+      audio.volume = 0.6;
       audio.play();
     }
   </script>
@@ -595,6 +621,7 @@
       if (pendingAnswer === null) {
         pendingAnswer = answerIndex;
         highlightProvisional(answerIndex);
+        playPostAnswerSound();
         playDefinitivePrompt();
         return;
       }
@@ -602,6 +629,7 @@
         resetAnswerStyles();
         pendingAnswer = answerIndex;
         highlightProvisional(answerIndex);
+        playPostAnswerSound();
         playDefinitivePrompt();
         return;
       }
@@ -621,6 +649,7 @@
       document.getElementById("suspenseAudio").pause();
       document.getElementById("suspenseAudio").currentTime = 0;
       playDefinitiveSound();
+      playAfterConfirmSound();
       const btn = document.getElementById("answer" + answerIndex);
       btn.classList.remove("selected");
       btn.classList.add("confirmed");
