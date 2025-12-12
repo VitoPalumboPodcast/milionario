@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Chi Vuol Essere Milionario - Versione Integrata</title>
+  <style>
+    /* --- STILI GENERALI --- */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background: url("https://steamuserimages-a.akamaihd.net/ugc/1876325938910021007/01FF3242B2E50780414912203B3B89C7DF0E2EA6/?imw=637&imh=358&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=true") no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+    header, footer { background-color: #001f3c; padding: 10px; }
+    header h1 { font-size: 2rem; margin: 0; }
+    header img { max-width: 150px; margin-bottom: 10px; }
+
+    /* --- SCHERMATA DI SELEZIONE --- */
+    #selectionScreen {
+      padding: 20px;
+      background: rgba(0,0,0,0.6);
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    /* Selezione manuale */
+    #manualSelection { margin-top: 20px; }
+    #playerNameInput {
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      margin-right: 10px;
+    }
+    #startManualBtn {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #startManualBtn:hover { background: #45a049; }
+    
+    /* Lavatrice per estrazione */
+    #washer {
+      position: relative;
+      width: 400px;
+      height: 400px;
+      margin: 20px auto;
+      border: 4px solid #333;
+      border-radius: 50%;
+      background: radial-gradient(circle at 50% 50%, #ffffff 10%, #dddddd 90%);
+      overflow: hidden;
+    }
+    /* Foro grafico */
+    #washer::after {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 20px;
+      background: #333;
+      border-radius: 10px 10px 0 0;
+    }
+    .ball {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: bold;
+      box-shadow: 0 0 4px rgba(0,0,0,0.3);
+      user-select: none;
+    }
+    .controls { margin: 20px 0; }
+    button {
+      font-size: 16px;
+      padding: 10px 20px;
+      margin: 5px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+    button:hover { background: #45a049; }
+    #result { font-size: 18px; min-height: 24px; margin-bottom: 20px; color: #fff; }
+    #selectedName { margin-top: 20px; font-size: 24px; color: #fff; }
+    
+    /* --- SCHERMATA QUIZ (MODIFICATA) --- */
+    #quizContainer {
+      display: none;
+      background: rgba(0,0,0,0.6);
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    /* Nuovo stile per il box della domanda */
+    .question-box {
+      background-color: #00264d;
+      border: 2px solid gold;
+      padding: 20px;
+      border-radius: 15px;
+      font-size: 24px;
+      margin-bottom: 20px;
+      position: relative;
+      z-index: 1;
+      transform: scaleX(1.03);
+      transform-origin: center;
+      text-align: center;
+    }
+    /* Nuovo stile per l'area delle risposte */
+    .answers {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+    }
+    .answer-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      position: relative;
+    }
+    .answer-row::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100vw;
+      height: 2px;
+      background: gold;
+      z-index: 0;
+    }
+    /* Stile per i pulsanti risposte */
+    .answer-button {
+      width: 48%;
+      background-color: #003366;
+      border: 2px solid gold;
+      padding: 15px 15px 15px 40px;
+      text-align: left;
+      font-size: 20px;
+      border-radius: 20px;
+      cursor: pointer;
+      position: relative;
+      z-index: 1;
+      transition: background-color 0.3s ease;
+      transform: scaleX(1.03);
+      transform-origin: center;
+    }
+    /* Mostra la lettera dell’opzione (usando data-option) */
+    .answer-button::before {
+      content: attr(data-option);
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-weight: bold;
+      color: gold;
+    }
+    .answer-button:hover {
+      background-color: #336699;
+    }
+    /* Stati dinamici per la risposta */
+    .answer-button.selected {
+      background-color: #ffcc00; /* Giallo per la scelta provvisoria */
+      color: #000;
+    }
+    .answer-button.confirmed {
+      background-color: orange; /* Arancione per la risposta confermata in attesa dell’esito */
+      color: #fff;
+    }
+    .answer-button.correct {
+      background-color: #008000;
+    }
+    .answer-button.wrong {
+      background-color: #990000;
+      color: #fff;
+    }
+    
+    /* Altri stili per il quiz rimangono invariati */
+    .quiz-header { display: flex; justify-content: center; align-items: center; margin-bottom: 10px; font-size: 1.2rem; }
+    #feedback { min-height: 30px; margin-top: 10px; font-size: 1.2rem; }
+    .lifelines {
+      margin-top: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    .lifeline-button {
+      background: #ff9933;
+      color: #000;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .lifeline-button:disabled { background: #999; cursor: not-allowed; }
+    #btnRetire { background: #e74c3c; color: #fff; margin-top: 15px; }
+    .scoreboard {
+      margin-top: 20px;
+      background: rgba(0,0,0,0.2);
+      padding: 10px;
+      border-radius: 8px;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+    .scoreboard ul { list-style: none; padding: 0; margin: 0; }
+    .scoreboard li {
+      padding: 5px;
+      border-bottom: 1px solid #ccc;
+      display: flex;
+      justify-content: space-between;
+    }
+    .scoreboard li.milestone { background: #ffc107; color: #000; }
+    .scoreboard li.active { background: #00bcd4 !important; color: #fff !important; }
+    
+    /* --- SCHERMATA FINE GIOCO --- */
+    #endGameScreen {
+      display: none;
+      background: rgba(0,0,0,0.8);
+      padding: 30px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="https://upload.wikimedia.org/wikipedia/en/4/4e/WWTBAMUS2020Logo.png" alt="Logo Chi Vuol Essere Milionario">
+    <h1>Chi Vuol Essere Milionario</h1>
+  </header>
+  <main>
+    <!-- SCHERMATA DI SELEZIONE -->
+    <div id="selectionScreen">
+      <h2>Seleziona il concorrente</h2>
+      <p>Avvia l’estrazione oppure inserisci manualmente il nome</p>
+      <!-- Selezione manuale -->
+      <div id="manualSelection">
+        <input type="text" id="playerNameInput" placeholder="Inserisci il nome del concorrente">
+        <button id="startManualBtn">Avvia Gioco</button>
+      </div>
+      <!-- Lavatrice per l'estrazione -->
+      <div id="washer"></div>
+      <div class="controls">
+        <button id="start-stop-btn">Avvia Estrazione</button>
+        <div id="result"></div>
+      </div>
+      <h3 id="selectedName"></h3>
+    </div>
+    
+    <!-- SCHERMATA QUIZ -->
+    <div id="quizContainer">
+      <div class="quiz-header" id="playerInfo"></div>
+      <div class="question-area">
+        <!-- Il testo della domanda viene ora visualizzato in un box con la grafica desiderata -->
+        <div class="question-box" id="questionText"></div>
+        <!-- Le risposte sono disposte in due righe; ciascun pulsante (answer-button) ha l'attributo data-option -->
+        <div class="answers">
+          <div class="answer-row">
+            <button class="answer-button" id="answer0" data-option="A" onclick="onAnswerClicked(0)"></button>
+            <button class="answer-button" id="answer1" data-option="B" onclick="onAnswerClicked(1)"></button>
+          </div>
+          <div class="answer-row">
+            <button class="answer-button" id="answer2" data-option="C" onclick="onAnswerClicked(2)"></button>
+            <button class="answer-button" id="answer3" data-option="D" onclick="onAnswerClicked(3)"></button>
+          </div>
+        </div>
+      </div>
+      <div id="feedback"></div>
+      <div class="lifelines">
+        <button class="lifeline-button" id="btn50" onclick="useFiftyFifty()">50:50</button>
+        <button class="lifeline-button" id="btnProf" onclick="askProf()">Aiuto del prof</button>
+        <button class="lifeline-button" id="btnChange" onclick="changeQuestion()">Cambia domanda</button>
+        <button class="lifeline-button" id="btnClass" onclick="askClass()">Aiuto della classe</button>
+      </div>
+      <button id="btnRetire" onclick="retire()">Ritirati</button>
+      <div class="scoreboard">
+        <ul id="scoreList"></ul>
+      </div>
+    </div>
+    
+    <!-- SCHERMATA FINE GIOCO -->
+    <div id="endGameScreen">
+      <h2>Fine del Gioco</h2>
+      <div id="finalScore"></div>
+      <button onclick="restartGame()">Ricomincia</button>
+    </div>
+  </main>
+  <footer>
+    <p>Gioco realizzato per LIM - Personalizzabile</p>
+  </footer>
+  
+  <!-- AUDIO -->
+  <audio id="bgMusic">
+    <source src="https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/shvbgpagxi/01%20Main%20Theme.mp3" type="audio/mpeg">
+    Il tuo browser non supporta l'audio.
+  </audio>
+  <script>
+    window.addEventListener("load", () => {
+      const bg = document.getElementById("bgMusic");
+      bg.volume = 0.4;
+      bg.play().catch(e => console.log("Interazione richiesta per il sottofondo."));
+      initBalls();
+      drawBalls();
+    });
+  </script>
+  
+  <!-- Suoni di supporto -->
+  <audio id="tickSound">
+    <source src="https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/shvbgpagxi/tick.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="correctSound">
+    <source src="https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/evrltjdslu/52%20%24250%2C000%20Win.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="wrongSound">
+    <source src="https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/rjhzqvzlas/16%20%242%2C000%20Lose.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="fourAnswersAudio">
+    <source src="https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/imybhhfcox/08%20Four%20Answers%20in%20Order.mp3" type="audio/mpeg">
+  </audio>
+  <!-- Musica di suspense (impostata dinamicamente) -->
+  <audio id="suspenseAudio" loop></audio>
+  <script>
+    document.getElementById("suspenseAudio").volume = 0.4;
+    function getSuspenseTrack() {
+      if (currentQuestionIndex === 9) {
+        return "https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/qeevmijfco/29%20%2416%2C000%20Question.mp3";
+      } else if (currentQuestionIndex === 6) {
+        return "https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/aokfkhoocj/14%20%242%2C000%20Question.mp3";
+      } else if (currentQuestionIndex === 7) {
+        return "https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/mksvhlwtxc/19%20%244%2C000%20Question.mp3";
+      } else if (currentQuestionIndex === 8) {
+        return "https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/jpwsuamjxy/24%20%248%2C000%20Question.mp3";
+      } else if (currentQuestionIndex === 10) {
+        return "https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/zitvaxtwyx/34%20%2432%2C000%20Question.mp3";
+      } else if (currentQuestionIndex === 12) {
+        return "https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/foourcouxn/44%20%24125%2C000%20Question.mp3";
+      } else if (currentQuestionIndex === 13) {
+        return "https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/wvlsjrnuzp/54%20%24500%2C000%20Question.mp3";
+      } else if (currentQuestionIndex === 14) {
+        return "https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/hidywqfcea/59%20%241%2C000%2C000%20Question.mp3";
+      } else {
+        return "https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/gbsxnbblhj/11%20%24100-%241%2C000%20Questions.mp3";
+      }
+    }
+  </script>
+  
+  <!-- Suono per conferma definitiva -->
+  <script>
+    function playDefinitiveSound() {
+      let audio = new Audio("https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/awanowgypj/15%20%242%2C000%20Final%20Answer-.mp3");
+      audio.volume = 0.4;
+      audio.play();
+    }
+  </script>
+  
+  <!-- Sintesi vocale -->
+  <script>
+    function presenterSpeak(text) {
+      speechSynthesis.cancel();
+      let utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "it-IT";
+      utterance.volume = 1;
+      speechSynthesis.speak(utterance);
+    }
+    function presenterSpeakInterrogative(text) {
+      speechSynthesis.cancel();
+      let utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "it-IT";
+      utterance.volume = 1;
+      utterance.pitch = 1.2;
+      speechSynthesis.speak(utterance);
+    }
+  </script>
+  
+  <!-- Selezione manuale -->
+  <script>
+    document.getElementById("startManualBtn").addEventListener("click", function() {
+      let inputName = document.getElementById("playerNameInput").value.trim();
+      if (inputName !== "") {
+        selectedPlayer = inputName;
+        document.getElementById("selectedName").textContent = `Concorrente scelto: ${selectedPlayer}`;
+        autoStartGame();
+      } else {
+        alert("Inserisci un nome valido.");
+      }
+    });
+  </script>
+  
+  <!-- Prompt per doppia conferma -->
+  <script>
+    function playDefinitivePrompt() {
+      presenterSpeakInterrogative("È la tua risposta definitiva? Ricorda, ogni risposta conta, dai il massimo!");
+    }
+  </script>
+  
+  <!-- Funzione per leggere le risposte con sincronizzazione -->
+  <script>
+    function readAnswers(text) {
+      return new Promise((resolve) => {
+        const answersAudio = document.getElementById("fourAnswersAudio");
+        answersAudio.currentTime = 0;
+        answersAudio.play();
+        let utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = "it-IT";
+        utterance.volume = 1;
+        utterance.onend = function() {
+          setTimeout(() => {
+            answersAudio.pause();
+            answersAudio.currentTime = 0;
+            const suspenseAudio = document.getElementById("suspenseAudio");
+            suspenseAudio.src = getSuspenseTrack();
+            suspenseAudio.currentTime = 0;
+            suspenseAudio.play();
+            allowAnswer = true;
+            for (let i = 0; i < 4; i++) {
+              document.getElementById("answer" + i).disabled = false;
+            }
+            resolve();
+          }, 2000);
+        };
+        speechSynthesis.speak(utterance);
+      });
+    }
+  </script>
+  
+  <!-- Funzione per mescolare le risposte -->
+  <script>
+    function shuffleQuestion(q) {
+      let arr = q.answers.map((ans, i) => ({ answer: ans, isCorrect: i === q.correct }));
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      const newAnswers = arr.map(item => item.answer);
+      const newCorrect = arr.findIndex(item => item.isCorrect);
+      return { question: q.question, answers: newAnswers, correct: newCorrect };
+    }
+  </script>
+  
+  <!-- SCRIPT DEL QUIZ (PRIMA VERSIONE) -->
+  <script>
+    // Variabile globale per il nome estratto (se non scelto manualmente)
+    let selectedPlayer = null;
+    let currentQuestion = null;
+    const questionsData = [
+      { question: "Quale delle seguenti azioni è indicata come un'attività che non aiuta la memorizzazione?", answers: ["Ripetere ad alta voce", "Studiare la sera", "Distribuire lo studio", "Pianificare il tempo"], correct: 1 },
+      { question: "La memoria a breve termine ha una durata massima di circa:", answers: ["1 minuto", "10 secondi", "1 ora", "1 giorno"], correct: 1 },
+      { question: "Qual è un sinonimo di attenzione sostenuta?", answers: ["Attenzione selettiva", "Restare concentrati", "Attenzione divisa", "Attenzione esogena"], correct: 1 },
+      { question: "Cosa si intende per \"parole chiave\" in un testo?", answers: ["Parole difficili da comprendere", "Parole essenziali per comprendere il testo", "Esempi nel testo", "Parole che si ripetono spesso"], correct: 1 },
+      { question: "Quale tipo di attenzione ci porta a selezionare le informazioni?", answers: ["Divisa", "Sostenuta", "Selettiva", "Endogena"], correct: 2 },
+      { question: "Qual è un metodo utile per studiare un testo?", answers: ["Memorizzare tutto", "Sottolineare le parole chiave", "Non prendere appunti", "Leggere una sola volta"], correct: 1 },
+      { question: "Cosa si intende per 'apprendimento distribuito'?", answers: ["Studiare all'ultimo minuto", "Studiare a intervalli", "Studiare per ore senza pausa", "Non studiare affatto"], correct: 1 },
+      {
+        question: "Uno studente non riesce a ricordare le informazioni studiate, nonostante utilizzi sottolineature, ripetizione e schemi. Considerando le strategie di memoria e i tipi di memoria, quale delle seguenti è la causa più probabile?",
+        answers: [
+          "**Strategie di studio inefficaci:** L'eccessiva ripetizione meccanica senza rielaborazione del materiale.",
+          "Un problema di **memoria a lungo termine** che impedisce la ritenzione delle informazioni.",
+          "Troppo tempo dedicato allo studio, causando un sovraccarico di informazioni.",
+          "Una **memoria sensoriale** carente che ostacola la codifica iniziale delle informazioni."
+        ],
+        correct: 0
+      },
+      { question: "Per migliorare l'attenzione, è utile:", answers: ["Avere molti stimoli esterni", "Ridurre gli stimoli esterni", "Non fare pause", "Studiare in un ambiente caotico"], correct: 1 },
+      { question: "Quale memoria è utile per operazioni mentali come scrivere o fare calcoli?", answers: ["Sensoriale", "Di lavoro", "A lungo termine", "Prospectiva"], correct: 1 },
+      { question: "L'attenzione può essere paragonata a:", answers: ["Un libro", "Un orologio", "Un imbuto", "Una bussola"], correct: 2 },
+      { question: "La memoria prospettica si riferisce a:", answers: ["Ricordare eventi del passato", "Ricordare informazioni apprese a scuola", "Ricordare ciò che si deve fare in futuro", "Ricordare sequenze di numeri"], correct: 2 },
+      { question: "Per gestire il tempo di studio, è utile:", answers: ["Studiare senza limiti", "Farsi guidare dal compito", "Pianificare il tempo", "Studiare senza pause"], correct: 2 },
+      { question: "Quale delle seguenti affermazioni descrive meglio il condizionamento operante?", 
+        answers: [
+          "Stimolo neutro diventa condizionato per associazione", 
+          "Comportamento modificato da conseguenze (premi o punizioni)", 
+          "Risposta automatica a uno stimolo neutro", 
+          "Comprensione improvvisa del problema"
+        ], correct: 1 
+      },
+      { question: "Quale delle seguenti affermazioni descrive meglio l'apprendimento per insight?", 
+        answers: [
+          "Associazione meccanica simile al condizionamento classico", 
+          "Apprendimento per tentativi ed errori", 
+          "Comprensione improvvisa della soluzione", 
+          "Rinforzo continuo"
+        ], correct: 2 
+      }
+    ];
+    
+    const prizeLevels = [
+      "100 €", "200 €", "300 €", "400 €", "500 €",   // Traguardo garantito a 500€ (domanda 5)
+      "1.000 €", "2.000 €", "4.000 €", "8.000 €", "16.000 €",  // Traguardo garantito a 16.000€ (domanda 10)
+      "32.000 €", "64.000 €", "125.000 €", "500.000 €", "1.000.000 €"
+    ];
+    let currentQuestionIndex = 0;
+    let pendingAnswer = null;
+    let fiftyFiftyUsed = false, profUsed = false, changeUsed = false, classUsed = false;
+    let allowAnswer = false;
+    
+    function populateScoreboard() {
+      const list = document.getElementById("scoreList");
+      list.innerHTML = "";
+      for (let i = 0; i < prizeLevels.length; i++) {
+        const li = document.createElement("li");
+        li.textContent = prizeLevels[i];
+        li.id = "score-" + i;
+        if (i === 4 || i === 9 || i === 14) li.classList.add("milestone");
+        list.appendChild(li);
+      }
+      updateScoreboard();
+    }
+    function updateScoreboard() {
+      for (let i = 0; i < prizeLevels.length; i++) {
+        const li = document.getElementById("score-" + i);
+        if (li) li.classList.remove("active");
+      }
+      const activeItem = document.getElementById("score-" + currentQuestionIndex);
+      if (activeItem) activeItem.classList.add("active");
+    }
+    function announceCurrentPrize() {
+      let prize = prizeLevels[currentQuestionIndex];
+      let msg = "Hai raggiunto " + prize + ".";
+      if (currentQuestionIndex === 4) msg += " Traguardo garantito!";
+      if (currentQuestionIndex === 9) msg += " Traguardo garantito!";
+      if (currentQuestionIndex === prizeLevels.length - 1) msg = "Complimenti, hai vinto " + prize + "!";
+      presenterSpeak(msg);
+    }
+    
+    async function showQuestion() {
+      if (currentQuestionIndex >= questionsData.length) {
+        endGame(true);
+        return;
+      }
+      if (rulesAudio) { rulesAudio.pause(); rulesAudio.currentTime = 0; rulesAudio = null; }
+      for (let i = 0; i < 4; i++) {
+        const btn = document.getElementById("answer" + i);
+        btn.textContent = "";
+        btn.style.visibility = "hidden";
+        btn.disabled = true;
+        btn.className = "answer-button";
+      }
+      document.getElementById("feedback").textContent = "";
+      pendingAnswer = null;
+      allowAnswer = false;
+      
+      let qShuffled = shuffleQuestion(questionsData[currentQuestionIndex]);
+      currentQuestion = qShuffled;
+      
+      let questionUtterance = new SpeechSynthesisUtterance("Domanda " + (currentQuestionIndex + 1) + ": " + currentQuestion.question);
+      questionUtterance.lang = "it-IT";
+      questionUtterance.volume = 1;
+      questionUtterance.onstart = function() {
+        document.getElementById("questionText").textContent = currentQuestion.question;
+        document.getElementById("bgMusic").pause();
+      };
+      await new Promise(resolve => {
+        questionUtterance.onend = resolve;
+        speechSynthesis.speak(questionUtterance);
+      });
+      
+      // (A questo punto si potrebbe inserire un breve incoraggiamento, ma per evitare sovrapposizioni si lascia che il prossimo messaggio vada insieme alla lettura delle risposte)
+      
+      // Le risposte compaiono una alla volta: la prima dopo 500ms, la seconda dopo 3500ms, poi 6500ms e 9500ms
+      for (let i = 0; i < 4; i++) {
+        setTimeout(() => {
+          const btn = document.getElementById("answer" + i);
+          btn.textContent = currentQuestion.answers[i];
+          btn.style.visibility = "visible";
+        }, 500 + i * 3000);
+      }
+      
+      let answersText = "Risposte possibili: A: " + currentQuestion.answers[0] +
+                        ", B: " + currentQuestion.answers[1] +
+                        ", C: " + currentQuestion.answers[2] +
+                        ", D: " + currentQuestion.answers[3];
+      await readAnswers(answersText);
+      
+      for (let i = 0; i < 4; i++) {
+        document.getElementById("answer" + i).disabled = false;
+      }
+      updateScoreboard();
+    }
+    
+    function onAnswerClicked(answerIndex) {
+      if (!allowAnswer) return;
+      if (pendingAnswer === null) {
+        pendingAnswer = answerIndex;
+        highlightProvisional(answerIndex);
+        playDefinitivePrompt();
+        return;
+      }
+      if (pendingAnswer !== answerIndex) {
+        resetAnswerStyles();
+        pendingAnswer = answerIndex;
+        highlightProvisional(answerIndex);
+        playDefinitivePrompt();
+        return;
+      }
+      confirmAnswer(answerIndex);
+    }
+    function highlightProvisional(index) {
+      document.getElementById("answer" + index).classList.add("selected");
+    }
+    function resetAnswerStyles() {
+      for (let i = 0; i < 4; i++) {
+        const btn = document.getElementById("answer" + i);
+        btn.disabled = false;
+        btn.className = "answer-button";
+      }
+    }
+    function confirmAnswer(answerIndex) {
+      document.getElementById("suspenseAudio").pause();
+      document.getElementById("suspenseAudio").currentTime = 0;
+      playDefinitiveSound();
+      const btn = document.getElementById("answer" + answerIndex);
+      btn.classList.remove("selected");
+      btn.classList.add("confirmed");
+      let chosenText = btn.textContent;
+      presenterSpeak("Hai scelto: " + chosenText);
+      for (let i = 0; i < 4; i++) {
+        document.getElementById("answer" + i).disabled = true;
+      }
+      setTimeout(() => {
+        if (answerIndex === currentQuestion.correct) {
+          btn.classList.remove("confirmed");
+          btn.classList.add("correct");
+          let audioWin = new Audio("https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/evrltjdslu/52%20%24250%2C000%20Win.mp3");
+          audioWin.volume = 0.4;
+          audioWin.play();
+          presenterSpeak("Risposta corretta! Bravo, sei inarrestabile!");
+          document.getElementById("feedback").textContent = "Risposta corretta!";
+          announceCurrentPrize();
+          setTimeout(() => {
+            currentQuestionIndex++;
+            showQuestion();
+          }, 7000);
+        } else {
+          btn.classList.remove("confirmed");
+          btn.classList.add("wrong");
+          const wrongAudio = document.getElementById("wrongSound");
+          wrongAudio.currentTime = 0;
+          wrongAudio.volume = 0.4;
+          wrongAudio.play();
+          presenterSpeak("Risposta sbagliata! Non ti abbattere, continua a provare!");
+          document.getElementById("feedback").textContent = "Risposta sbagliata!";
+          setTimeout(() => {
+            let finalPrize = "0 €";
+            if (currentQuestionIndex >= 5 && currentQuestionIndex < 10) {
+              finalPrize = prizeLevels[4];
+            } else if (currentQuestionIndex >= 10) {
+              finalPrize = prizeLevels[9];
+            }
+            endGame(false, finalPrize);
+          }, 7000);
+        }
+      }, 7000);
+    }
+    
+    function useFiftyFifty() {
+      if (fiftyFiftyUsed) return;
+      fiftyFiftyUsed = true;
+      document.getElementById("btn50").disabled = true;
+      let audio = new Audio("https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/oqmqjluggn/67%2050-50.mp3");
+      audio.volume = 0.4;
+      audio.play();
+      const q = currentQuestion;
+      const correct = q.correct;
+      let indices = [0, 1, 2, 3];
+      indices.splice(indices.indexOf(correct), 1);
+      indices.sort(() => 0.5 - Math.random());
+      const toHide = indices.slice(0, 2);
+      toHide.forEach(i => {
+        document.getElementById("answer" + i).style.visibility = "hidden";
+      });
+    }
+    
+    function askProf() {
+      if (profUsed) return;
+      profUsed = true;
+      document.getElementById("btnProf").disabled = true;
+      let advice = "Il professore suggerisce di valutare bene le opzioni A e C. Coraggio, hai studiato tanto!";
+      presenterSpeak(advice);
+      document.getElementById("feedback").textContent = advice;
+    }
+    
+    function changeQuestion() {
+      if (changeUsed) return;
+      changeUsed = true;
+      document.getElementById("btnChange").disabled = true;
+      presenterSpeak("Hai scelto di cambiare domanda! Coraggio, passa alla prossima, ce la puoi fare!");
+      document.getElementById("feedback").textContent = "Domanda cambiata!";
+      currentQuestionIndex++;
+      showQuestion();
+    }
+    
+    function askClass() {
+      if (classUsed) return;
+      classUsed = true;
+      document.getElementById("btnClass").disabled = true;
+      let audio = new Audio("https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/lwhnnzheda/68%20Ask%20The%20Audience.mp3");
+      audio.volume = 0.4;
+      audio.play();
+      let msg = "La classe vota: la maggioranza sceglie la risposta B. Ascolta il consiglio della tua squadra!";
+      presenterSpeak(msg);
+      document.getElementById("feedback").textContent = msg;
+    }
+    
+    function retire() {
+      endGame(false, "0 €");
+    }
+    
+    function endGame(isWin, finalPrize) {
+      document.getElementById("quizContainer").style.display = "none";
+      document.getElementById("endGameScreen").style.display = "block";
+      let msg = "";
+      if (isWin) {
+        msg = `Complimenti ${selectedPlayer}, hai vinto ${prizeLevels[prizeLevels.length - 1]}!`;
+        presenterSpeak(msg);
+      } else {
+        msg = `${selectedPlayer}, hai sbagliato e porti a casa ${finalPrize}.`;
+        presenterSpeak(msg);
+      }
+      document.getElementById("finalScore").textContent = msg;
+    }
+    
+    function restartGame() {
+      currentQuestionIndex = 0;
+      fiftyFiftyUsed = false;
+      profUsed = false;
+      changeUsed = false;
+      classUsed = false;
+      document.getElementById("endGameScreen").style.display = "none";
+      document.getElementById("selectionScreen").style.display = "block";
+      document.getElementById("selectedName").textContent = "";
+      document.getElementById("bgMusic").play();
+    }
+  </script>
+  
+  <!-- SCRIPT DEL QUIZ (DOMANDE, RISPOSTE, CONFERMA, AIUTI, FINE) - SECONDA VERSIONE -->
+  <script>
+    // In questa sezione si assume che selectedPlayer sia già impostato (dall'estrazione o manualmente)
+    let currentQuestion2 = null;
+    const questionsData2 = [
+      { question: "Quale delle seguenti azioni è indicata come un'attività che non aiuta la memorizzazione?", answers: ["Ripetere ad alta voce", "Studiare la sera", "Distribuire lo studio", "Pianificare il tempo"], correct: 1 },
+      { question: "La memoria a breve termine ha una durata massima di circa:", answers: ["1 minuto", "10 secondi", "1 ora", "1 giorno"], correct: 1 },
+      { question: "Qual è un sinonimo di attenzione sostenuta?", answers: ["Attenzione selettiva", "Restare concentrati", "Attenzione divisa", "Attenzione esogena"], correct: 1 },
+      { question: "Cosa si intende per 'parole chiave' in un testo?", answers: ["Termini difficili", "Elementi essenziali", "Esempi", "Parole ripetute"], correct: 1 },
+      { question: "Quale tipo di attenzione ci porta a selezionare le informazioni?", answers: ["Divisa", "Sostenuta", "Selettiva", "Endogena"], correct: 2 },
+      { question: "Qual è un metodo utile per studiare un testo?", answers: ["Memorizzare tutto", "Sottolineare le parole chiave", "Non prendere appunti", "Leggere una sola volta"], correct: 1 },
+      { question: "Cosa si intende per 'apprendimento distribuito'?", answers: ["Studiare all'ultimo minuto", "Studiare a intervalli", "Studiare per ore senza pausa", "Non studiare affatto"], correct: 1 },
+      { question: "Quale dei seguenti non è un tipo di memoria menzionato?", answers: ["Visiva", "Breve termine", "Prospectiva", "Olfattiva"], correct: 3 },
+      { question: "Per migliorare l'attenzione, è utile:", answers: ["Tanti stimoli", "Ridurre gli stimoli", "Evitare pause", "Studiare in ambiente caotico"], correct: 1 },
+      { question: "Quale tipo di memoria è utile per compiere un'operazione mentale come scrivere o fare un calcolo?", answers: ["Memoria sensoriale", "Memoria di lavoro", "Memoria a lungo termine", "Memoria prospettica"], correct: 1 },
+      { question: "L'attenzione può essere paragonata a:", answers: ["Un libro", "Un orologio", "Un imbuto", "Una bussola"], correct: 2 },
+      { question: "La memoria prospettica si riferisce a:", answers: ["Ricordare il passato", "Ricordare la scuola", "Ricordare il futuro", "Ricordare numeri"], correct: 2 },
+      { question: "Per gestire il tempo di studio, si consiglia di:", answers: ["Studiare senza limiti di tempo", "Farsi guidare dal compito", "Decidere in anticipo quanto tempo dedicare allo studio", "Studiare senza fare pause"], correct: 2 },
+      { question: "Quale delle seguenti affermazioni descrive meglio il condizionamento operante?", 
+        answers: [
+          "Stimolo neutro condizionato per associazione", 
+          "Comportamento modificato da conseguenze", 
+          "Risposta automatica a uno stimolo neutro", 
+          "Comprensione improvvisa della soluzione"
+        ], correct: 1 
+      },
+      { question: "Quale delle seguenti affermazioni descrive meglio l'apprendimento per insight?", 
+        answers: [
+          "Associazione meccanica (classico)", 
+          "Apprendimento per tentativi", 
+          "Comprensione improvvisa della soluzione", 
+          "Rinforzo continuo"
+        ], correct: 2 
+      }
+    ];
+    
+    const prizeLevels2 = [
+      "100 €", "200 €", "300 €", "400 €", "500 €",   // Traguardo garantito (domanda 5)
+      "1.000 €", "2.000 €", "4.000 €", "8.000 €", "16.000 €", // Traguardo garantito (domanda 10)
+      "32.000 €", "64.000 €", "125.000 €", "500.000 €", "1.000.000 €"
+    ];
+    let currentQuestionIndex2 = 0;
+    let pendingAnswer2 = null;
+    let fiftyFiftyUsed2 = false, profUsed2 = false, changeUsed2 = false, classUsed2 = false;
+    let allowAnswer2 = false;
+    
+    function populateScoreboard2() {
+      const list = document.getElementById("scoreList");
+      list.innerHTML = "";
+      for (let i = 0; i < prizeLevels2.length; i++) {
+        const li = document.createElement("li");
+        li.textContent = prizeLevels2[i];
+        li.id = "score-" + i;
+        if (i === 4 || i === 9 || i === 14) li.classList.add("milestone");
+        list.appendChild(li);
+      }
+      updateScoreboard2();
+    }
+    function updateScoreboard2() {
+      for (let i = 0; i < prizeLevels2.length; i++) {
+        const li = document.getElementById("score-" + i);
+        if (li) li.classList.remove("active");
+      }
+      const activeItem = document.getElementById("score-" + currentQuestionIndex2);
+      if (activeItem) activeItem.classList.add("active");
+    }
+    function announceCurrentPrize2() {
+      let prize = prizeLevels2[currentQuestionIndex2];
+      let msg = "Hai raggiunto " + prize + ".";
+      if (currentQuestionIndex2 === 4) msg += " Traguardo garantito!";
+      if (currentQuestionIndex2 === 9) msg += " Traguardo garantito!";
+      if (currentQuestionIndex2 === prizeLevels2.length - 1) msg = "Complimenti, hai vinto " + prize + "!";
+      presenterSpeak(msg);
+    }
+    
+    async function showQuestion2() {
+      if (currentQuestionIndex2 >= questionsData2.length) {
+        endGame(true);
+        return;
+      }
+      if (rulesAudio) { rulesAudio.pause(); rulesAudio.currentTime = 0; rulesAudio = null; }
+      for (let i = 0; i < 4; i++) {
+        const btn = document.getElementById("answer" + i);
+        btn.textContent = "";
+        btn.style.visibility = "hidden";
+        btn.disabled = true;
+        btn.className = "answer-button";
+      }
+      document.getElementById("feedback").textContent = "";
+      pendingAnswer2 = null;
+      allowAnswer2 = false;
+      
+      let qShuffled = shuffleQuestion(questionsData2[currentQuestionIndex2]);
+      currentQuestion2 = qShuffled;
+      
+      let questionUtterance = new SpeechSynthesisUtterance("Domanda " + (currentQuestionIndex2 + 1) + ": " + currentQuestion2.question);
+      questionUtterance.lang = "it-IT";
+      questionUtterance.volume = 1;
+      questionUtterance.onstart = function() {
+        document.getElementById("questionText").textContent = currentQuestion2.question;
+        document.getElementById("bgMusic").pause();
+      };
+      await new Promise(resolve => {
+        questionUtterance.onend = resolve;
+        speechSynthesis.speak(questionUtterance);
+      });
+      
+      for (let i = 0; i < 4; i++) {
+        setTimeout(() => {
+          const btn = document.getElementById("answer" + i);
+          btn.textContent = currentQuestion2.answers[i];
+          btn.style.visibility = "visible";
+        }, 500 + i * 3000);
+      }
+      
+      let answersText = "Risposte possibili: A: " + currentQuestion2.answers[0] +
+                        ", B: " + currentQuestion2.answers[1] +
+                        ", C: " + currentQuestion2.answers[2] +
+                        ", D: " + currentQuestion2.answers[3];
+      await readAnswers(answersText);
+      
+      for (let i = 0; i < 4; i++) {
+        document.getElementById("answer" + i).disabled = false;
+      }
+      updateScoreboard2();
+    }
+    
+    function onAnswerClicked2(answerIndex) {
+      if (!allowAnswer2) return;
+      if (pendingAnswer2 === null) {
+        pendingAnswer2 = answerIndex;
+        highlightProvisional(answerIndex);
+        playDefinitivePrompt();
+        return;
+      }
+      if (pendingAnswer2 !== answerIndex) {
+        resetAnswerStyles();
+        pendingAnswer2 = answerIndex;
+        highlightProvisional(answerIndex);
+        playDefinitivePrompt();
+        return;
+      }
+      confirmAnswer2(answerIndex);
+    }
+    function confirmAnswer2(answerIndex) {
+      document.getElementById("suspenseAudio").pause();
+      document.getElementById("suspenseAudio").currentTime = 0;
+      playDefinitiveSound();
+      const btn = document.getElementById("answer" + answerIndex);
+      btn.classList.remove("selected");
+      btn.classList.add("confirmed");
+      let chosenText = btn.textContent;
+      presenterSpeak("Hai scelto: " + chosenText);
+      for (let i = 0; i < 4; i++) {
+        document.getElementById("answer" + i).disabled = true;
+      }
+      setTimeout(() => {
+        if (answerIndex === currentQuestion2.correct) {
+          btn.classList.remove("confirmed");
+          btn.classList.add("correct");
+          let audioWin = new Audio("https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/evrltjdslu/52%20%24250%2C000%20Win.mp3");
+          audioWin.volume = 0.4;
+          audioWin.play();
+          presenterSpeak("Risposta corretta! Bravo, sei inarrestabile!");
+          document.getElementById("feedback").textContent = "Risposta corretta!";
+          announceCurrentPrize2();
+          setTimeout(() => {
+            currentQuestionIndex2++;
+            showQuestion2();
+          }, 7000);
+        } else {
+          btn.classList.remove("confirmed");
+          btn.classList.add("wrong");
+          const wrongAudio = document.getElementById("wrongSound");
+          wrongAudio.currentTime = 0;
+          wrongAudio.volume = 0.4;
+          wrongAudio.play();
+          presenterSpeak("Risposta sbagliata! Non ti abbattere, continua a provare!");
+          document.getElementById("feedback").textContent = "Risposta sbagliata!";
+          setTimeout(() => {
+            let finalPrize = "0 €";
+            if (currentQuestionIndex2 >= 5 && currentQuestionIndex2 < 10) {
+              finalPrize = prizeLevels2[4];
+            } else if (currentQuestionIndex2 >= 10) {
+              finalPrize = prizeLevels2[9];
+            }
+            endGame(false, finalPrize);
+          }, 7000);
+        }
+      }, 7000);
+    }
+  </script>
+  
+  <!-- Avvio automatico del Main Theme -->
+  <script>
+    window.addEventListener("load", () => {
+      const bg = document.getElementById("bgMusic");
+      bg.volume = 0.4;
+      bg.play().catch(e => console.log("Interazione richiesta per il sottofondo."));
+    });
+  </script>
+  
+  <!-- SCRIPT ESTRAZIONE (lavatrice con palline) -->
+  <script>
+    // COSTANTI PER LA LAVATRICE
+    const WASHER_RADIUS = 200;  // 400px di diametro
+    const BALL_RADIUS = 20;     // 40px di diametro
+    const FPS = 60;
+    const DELTA = 1 / FPS;
+    const SWIRL_FORCE = 30;
+    const HOLE_ANGLE_MIN = (80 * Math.PI) / 180;
+    const HOLE_ANGLE_MAX = (100 * Math.PI) / 180;
+    
+    let balls = [];  // Array di palline
+    let running = false;
+    let startTime = null;
+    let holeOpen = false;
+    
+    const washerEl = document.getElementById("washer");
+    const resultEl = document.getElementById("result");
+    const startStopBtn = document.getElementById("start-stop-btn");
+    const collectedEl = document.getElementById("collected");
+    
+    // Array di studenti per le palline
+    const students = [
+      "Mart", "Moha", "Giad", "Emil", "Rick", "Max",
+      "Matt", "Ila P", "Ila B", "Ste", "Ludo A", "Ant",
+      "Kar", "Soph", "Simo", "Marit", "Ludo U", "Giar"
+    ];
+    
+    function initBalls() {
+      balls = [];
+      for (let i = 0; i < students.length; i++) {
+        const hue = Math.floor(Math.random() * 360);
+        const color = `hsl(${hue}, 80%, 50%)`;
+        let r = Math.random() * (WASHER_RADIUS - BALL_RADIUS);
+        let theta = Math.random() * 2 * Math.PI;
+        let x = r * Math.cos(theta);
+        let y = r * Math.sin(theta);
+        let vx = (Math.random() - 0.5) * 120;
+        let vy = (Math.random() - 0.5) * 120;
+        balls.push({ x, y, vx, vy, color, name: students[i] });
+      }
+    }
+    
+    function drawBalls() {
+      washerEl.innerHTML = "";
+      balls.forEach(b => {
+        const ballEl = document.createElement("div");
+        ballEl.classList.add("ball");
+        ballEl.style.backgroundColor = b.color;
+        ballEl.textContent = b.name;
+        ballEl.style.left = (WASHER_RADIUS + b.x - BALL_RADIUS) + "px";
+        ballEl.style.top  = (WASHER_RADIUS + b.y - BALL_RADIUS) + "px";
+        washerEl.appendChild(ballEl);
+      });
+    }
+    
+    function updatePhysics() {
+      balls.forEach(b => {
+        let dist = Math.sqrt(b.x * b.x + b.y * b.y);
+        if (dist > 1) {
+          let tx = b.y / dist;
+          let ty = -b.x / dist;
+          b.vx += tx * SWIRL_FORCE * DELTA;
+          b.vy += ty * SWIRL_FORCE * DELTA;
+        }
+      });
+      balls.forEach(b => {
+        b.x += b.vx * DELTA;
+        b.y += b.vy * DELTA;
+      });
+      for (let i = 0; i < balls.length; i++) {
+        let b = balls[i];
+        let distFromCenter = Math.sqrt(b.x * b.x + b.y * b.y);
+        if (distFromCenter + BALL_RADIUS >= WASHER_RADIUS) {
+          let angle = Math.atan2(b.y, b.x);
+          if (!holeOpen || angle < HOLE_ANGLE_MIN || angle > HOLE_ANGLE_MAX) {
+            let overlap = (distFromCenter + BALL_RADIUS) - WASHER_RADIUS;
+            b.x -= overlap * (b.x / distFromCenter);
+            b.y -= overlap * (b.y / distFromCenter);
+            let nx = b.x / distFromCenter;
+            let ny = b.y / distFromCenter;
+            let dot = b.vx * nx + b.vy * ny;
+            b.vx -= 2 * dot * nx;
+            b.vy -= 2 * dot * ny;
+          } else {
+            if (!selectedPlayer) {
+              depositBall(b);
+              running = false;
+            }
+            balls.splice(i, 1);
+            i--;
+          }
+        }
+      }
+      for (let i = 0; i < balls.length; i++) {
+        for (let j = i + 1; j < balls.length; j++) {
+          let bi = balls[i], bj = balls[j];
+          let dx = bj.x - bi.x, dy = bj.y - bi.y;
+          let dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 2 * BALL_RADIUS) {
+            let nx = dx / dist, ny = dy / dist;
+            let dvx = bj.vx - bi.vx, dvy = bj.vy - bi.vy;
+            let relDot = dvx * nx + dvy * ny;
+            if (relDot > 0) {
+              bi.vx += relDot * nx;
+              bi.vy += relDot * ny;
+              bj.vx -= relDot * nx;
+              bj.vy -= relDot * ny;
+            }
+            let overlap = 2 * BALL_RADIUS - dist;
+            bi.x -= (overlap / 2) * nx;
+            bi.y -= (overlap / 2) * ny;
+            bj.x += (overlap / 2) * nx;
+            bj.y += (overlap / 2) * ny;
+          }
+        }
+      }
+    }
+    
+    function depositBall(ball) {
+      if (!selectedPlayer) {
+        selectedPlayer = ball.name;
+        document.getElementById("selectedName").textContent = `Concorrente estratto: ${selectedPlayer}`;
+        resultEl.textContent = `Concorrente estratto: ${selectedPlayer}`;
+        setTimeout(() => { autoStartGame(); }, 1000);
+      }
+    }
+    
+    let lastTimestamp2 = 0;
+    function animate(timestamp) {
+      if (!running) return;
+      let elapsed = (timestamp - startTime) / 1000;
+      if (!holeOpen && elapsed >= 5) {
+        holeOpen = true;
+        resultEl.textContent = "FORO APERTO!";
+      }
+      lastTimestamp2 = timestamp;
+      updatePhysics();
+      drawBalls();
+      requestAnimationFrame(animate);
+    }
+    
+    startStopBtn.addEventListener("click", () => {
+      running = true;
+      startTime = performance.now();
+      lastTimestamp2 = startTime;
+      holeOpen = false;
+      resultEl.textContent = "Estrazione in corso...";
+      requestAnimationFrame(animate);
+      startStopBtn.textContent = "Ferma";
+    });
+  </script>
+  
+  <!-- AUTO-AVVIO DEL QUIZ (dopo l'estrazione) -->
+  <script>
+    let rulesAudio = null;
+    function autoStartGame() {
+      document.getElementById("selectionScreen").style.display = "none";
+      rulesAudio = new Audio("https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/pempnhynuo/03%20Explain%20The%20Rules.mp3");
+      rulesAudio.volume = 0.4;
+      rulesAudio.play();
+      presenterSpeak("Le regole sono semplici: risponderai a 15 domande. Dopo che il conduttore avrà letto la domanda, verranno elencate le quattro possibili risposte.");
+      setTimeout(() => {
+        if (rulesAudio) { rulesAudio.pause(); rulesAudio.currentTime = 0; rulesAudio = null; }
+        document.getElementById("quizContainer").style.display = "block";
+        document.getElementById("playerInfo").textContent = `Concorrente: ${selectedPlayer}`;
+        populateScoreboard();
+        // Messaggio motivazionale all'inizio del quiz
+        presenterSpeak("Iniziamo il quiz! Buona fortuna! Mostra il tuo impegno e concentrati!");
+        showQuestion();
+      }, 2500);
+    }
+    
+    function presenterSpeak(text) {
+      speechSynthesis.cancel();
+      let utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "it-IT";
+      utterance.volume = 1;
+      speechSynthesis.speak(utterance);
+    }
+    function presenterSpeakInterrogative(text) {
+      speechSynthesis.cancel();
+      let utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = "it-IT";
+      utterance.volume = 1;
+      utterance.pitch = 1.2;
+      speechSynthesis.speak(utterance);
+    }
+  </script>
+  
+</body>
+</html>
