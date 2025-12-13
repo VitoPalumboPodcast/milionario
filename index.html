@@ -1335,6 +1335,7 @@
       currentQuestionIndex = 0;
       correctAnswersCount = 0;
       activeQuestions = [];
+      selectedPlayer = null;
       fiftyFiftyUsed = false;
       profUsed = false;
       changeUsed = false;
@@ -1342,6 +1343,14 @@
       document.getElementById("endGameScreen").style.display = "none";
       document.getElementById("selectionScreen").style.display = "block";
       document.getElementById("selectedName").textContent = "";
+      document.getElementById("result").textContent = "";
+      const startStopButton = document.getElementById("start-stop-btn");
+      if (startStopButton) startStopButton.textContent = "Avvia Estrazione";
+      running = false;
+      holeOpen = false;
+      startTime = null;
+      initBalls();
+      drawBalls();
       document.getElementById("bgMusic").play();
       startSelectionMusic();
       document.getElementById("adminPanel").style.display = "block";
