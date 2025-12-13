@@ -317,7 +317,7 @@
     <source src="dopo_la_conferma.mp3" type="audio/mpeg">
   </audio>
   <audio id="selectionMusic" loop>
-    <source src="sceltaconcorrenti.mp3" type="audio/mpeg">
+    <source src="Theme Contestants - Who Wants to Be a Millionaire_.mp3" type="audio/mpeg">
   </audio>
   <script>
     window.addEventListener("load", () => {
@@ -438,7 +438,7 @@
   <!-- Prompt per doppia conferma -->
   <script>
     function playDefinitivePrompt() {
-      presenterSpeakInterrogative("È la tua risposta definitiva? Ricorda, ogni risposta conta, dai il massimo!");
+      presenterSpeakInterrogative("È la tua risposta definitiva? La accendiamo?");
     }
   </script>
   
@@ -1174,7 +1174,7 @@
         document.getElementById("playerInfo").textContent = `Concorrente: ${selectedPlayer}`;
         populateScoreboard();
         // Messaggio motivazionale all'inizio del quiz
-        presenterSpeak("Iniziamo il quiz! Buona fortuna! Mostra il tuo impegno e concentrati!");
+        presenterSpeak("Iniziamo il quiz! Buona fortuna!");
         showQuestion();
       }, 2500);
     }
