@@ -481,7 +481,7 @@
               document.getElementById("answer" + i).disabled = false;
             }
             resolve();
-          }, 2000);
+          }, 3000);
         };
         speechSynthesis.speak(utterance);
       });
@@ -1167,16 +1167,24 @@
       rulesAudio = new Audio("Who Wants To Be a Millionaire - Lets Play (Sound Fx HQ).mp3");
       rulesAudio.volume = 0.4;
       rulesAudio.play();
-      presenterSpeak("Le regole sono semplici: risponderai a 15 domande. Dopo che il conduttore avrà letto la domanda, verranno elencate le quattro possibili risposte.");
-      setTimeout(() => {
-        if (rulesAudio) { rulesAudio.pause(); rulesAudio.currentTime = 0; rulesAudio = null; }
-        document.getElementById("quizContainer").style.display = "block";
-        document.getElementById("playerInfo").textContent = `Concorrente: ${selectedPlayer}`;
-        populateScoreboard();
-        // Messaggio motivazionale all'inizio del quiz
-        presenterSpeak("Iniziamo il quiz! Buona fortuna!");
-        showQuestion();
-      }, 2500);
+      const rulesText = "Le regole sono semplici: risponderai a 15 domande. Dopo che il conduttore avrà letto la domanda, verranno elencate le quattro possibili risposte.";
+      let utterance = new SpeechSynthesisUtterance(rulesText);
+      utterance.lang = "it-IT";
+      utterance.volume = 1;
+      utterance.onend = () => {
+        // Lascia scorrere ancora un po' la musica introduttiva prima di iniziare il gioco
+        setTimeout(() => {
+          if (rulesAudio) { rulesAudio.pause(); rulesAudio.currentTime = 0; rulesAudio = null; }
+          document.getElementById("quizContainer").style.display = "block";
+          document.getElementById("playerInfo").textContent = `Concorrente: ${selectedPlayer}`;
+          populateScoreboard();
+          // Messaggio motivazionale all'inizio del quiz
+          presenterSpeak("Iniziamo il quiz! Buona fortuna!");
+          showQuestion();
+        }, 4000);
+      };
+      speechSynthesis.cancel();
+      speechSynthesis.speak(utterance);
     }
     
     function presenterSpeak(text) {
