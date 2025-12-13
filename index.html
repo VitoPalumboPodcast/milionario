@@ -184,6 +184,30 @@
     button:hover { background: #45a049; }
     #result { font-size: 18px; min-height: 24px; margin-bottom: 20px; color: #fff; }
     #selectedName { margin-top: 20px; font-size: 24px; color: #fff; }
+
+    /* Sovraimpressione del nome estratto */
+    #nameOverlay {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at center, rgba(0, 40, 90, 0.75), rgba(0, 0, 0, 0.85));
+      color: #ffd700;
+      font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(255, 215, 0, 0.9), 0 0 20px rgba(14, 74, 146, 0.8);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+      z-index: 1500;
+    }
+
+    #nameOverlay.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
     
     /* --- SCHERMATA QUIZ (MODIFICATA) --- */
     #quizContainer {
@@ -466,6 +490,11 @@
         <div id="result"></div>
       </div>
       <h3 id="selectedName"></h3>
+    </div>
+
+    <!-- Sovraimpressione per il nome estratto -->
+    <div id="nameOverlay" aria-live="polite" aria-label="Nome del concorrente estratto">
+      <span id="overlayName"></span>
     </div>
     
     <!-- SCHERMATA QUIZ -->
@@ -1054,6 +1083,7 @@
   <script>
     // Variabile globale per il nome estratto (se non scelto manualmente)
     let selectedPlayer = null;
+    let nameOverlayTimeout = null;
     let currentQuestion = null;
     const defaultQuestions = [
       { question: "Quale delle seguenti azioni è indicata come un'attività che non aiuta la memorizzazione?", answers: ["Ripetere ad alta voce", "Studiare la sera", "Distribuire lo studio", "Pianificare il tempo"], correct: 1 },
@@ -1723,13 +1753,25 @@
       }
     }
     
+    function showNameOverlay(name) {
+      const overlay = document.getElementById("nameOverlay");
+      const overlayName = document.getElementById("overlayName");
+      overlayName.textContent = name.toUpperCase();
+      overlay.classList.add("show");
+      clearTimeout(nameOverlayTimeout);
+      nameOverlayTimeout = setTimeout(() => {
+        overlay.classList.remove("show");
+      }, 4500);
+    }
+
     function depositBall(ball) {
       if (!selectedPlayer) {
         selectedPlayer = ball.name;
         document.getElementById("selectedName").textContent = `Concorrente estratto: ${selectedPlayer}`;
         resultEl.textContent = `Concorrente estratto: ${selectedPlayer}`;
+        showNameOverlay(selectedPlayer);
         presenterSpeak(`Concorrente estratto: ${selectedPlayer}. Preparati a raggiungere la postazione!`);
-        setTimeout(() => { autoStartGame(); }, 1000);
+        setTimeout(() => { autoStartGame(); }, 4500);
       }
     }
     
@@ -1763,6 +1805,8 @@
     let rulesAudio = null;
     function autoStartGame() {
       stopSelectionMusic();
+      document.getElementById("nameOverlay").classList.remove("show");
+      clearTimeout(nameOverlayTimeout);
       if (!questionsData.length) {
         alert("Aggiungi almeno una domanda nella materia selezionata prima di iniziare.");
         return;
