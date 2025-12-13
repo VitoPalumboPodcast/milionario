@@ -1305,6 +1305,21 @@
         document.getElementById("answer" + i).style.visibility = "hidden";
       });
     }
+
+    function resetLifelines() {
+      fiftyFiftyUsed = false;
+      profUsed = false;
+      changeUsed = false;
+      classUsed = false;
+      ["btn50", "btnProf", "btnChange", "btnClass"].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) btn.disabled = false;
+      });
+      for (let i = 0; i < 4; i++) {
+        const btn = document.getElementById("answer" + i);
+        if (btn) btn.style.visibility = "visible";
+      }
+    }
     
     function askProf() {
       if (profUsed) return;
@@ -1375,10 +1390,7 @@
       correctAnswersCount = 0;
       activeQuestions = [];
       selectedPlayer = null;
-      fiftyFiftyUsed = false;
-      profUsed = false;
-      changeUsed = false;
-      classUsed = false;
+      resetLifelines();
       document.getElementById("endGameScreen").style.display = "none";
       document.getElementById("selectionScreen").style.display = "block";
       document.getElementById("selectedName").textContent = "";
@@ -1754,6 +1766,7 @@
         alert("Aggiungi almeno una domanda nella materia selezionata prima di iniziare.");
         return;
       }
+      resetLifelines();
       activeQuestions = shuffleArray(questionsData);
       currentQuestionIndex = 0;
       correctAnswersCount = 0;
