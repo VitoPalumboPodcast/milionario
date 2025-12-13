@@ -305,7 +305,7 @@
       margin: 0 auto;
     }
     .scoreboard ul { list-style: none; padding: 0; margin: 0; }
-    .scoreboard li {
+    .scoreboard li { 
       padding: 5px;
       border-bottom: 1px solid #ccc;
       display: flex;
@@ -313,6 +313,27 @@
     }
     .scoreboard li.milestone { background: #ffc107; color: #000; }
     .scoreboard li.active { background: #00bcd4 !important; color: #fff !important; }
+
+    /* Classifica giocatori */
+    #leaderboardSection {
+      margin-top: 20px;
+      background: rgba(0, 0, 0, 0.6);
+      border: 2px solid gold;
+      border-radius: 10px;
+      padding: 16px;
+      text-align: left;
+    }
+    #leaderboardSection h3 { margin-bottom: 10px; }
+    #leaderboardSection table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    #leaderboardSection th, #leaderboardSection td {
+      border-bottom: 1px solid #0e4a92;
+      padding: 8px;
+    }
+    #leaderboardSection th { text-align: left; }
+    #leaderboardSection tbody tr:nth-child(odd) { background: rgba(255, 255, 255, 0.05); }
     
     /* --- SCHERMATA FINE GIOCO --- */
     #endGameScreen {
@@ -422,6 +443,15 @@
         <input type="text" id="playerNameInput" placeholder="Inserisci il nome del concorrente">
         <button id="startManualBtn">Avvia Gioco</button>
       </div>
+      <section id="leaderboardSection">
+        <h3>Classifica partecipanti</h3>
+        <table>
+          <thead>
+            <tr><th>Giocatore</th><th>Punteggio</th><th>Premio</th><th>Esito</th></tr>
+          </thead>
+          <tbody id="leaderboardBody"></tbody>
+        </table>
+      </section>
       <!-- Lavatrice per l'estrazione -->
       <div id="washer"></div>
       <div class="controls">
@@ -502,6 +532,7 @@
       initBalls();
       drawBalls();
       await loadDefaultSubjects();
+      loadLeaderboard();
       initializeAdminPanel();
     });
   </script>
@@ -663,6 +694,15 @@
   
   <!-- Funzione per mescolare le risposte -->
   <script>
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
     function shuffleQuestion(q) {
       let arr = q.answers.map((ans, i) => ({ answer: ans, isCorrect: i === q.correct }));
       for (let i = arr.length - 1; i > 0; i--) {
@@ -774,6 +814,52 @@
       }
       currentQuestionIndex = 0;
       renderSubjectChoice();
+    }
+
+    function loadLeaderboard() {
+      const stored = localStorage.getItem("leaderboard");
+      if (stored) {
+        try {
+          leaderboard = JSON.parse(stored);
+        } catch (e) {
+          leaderboard = [];
+        }
+      }
+      updateLeaderboardUI();
+    }
+
+    function persistLeaderboard() {
+      localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+    }
+
+    function updateLeaderboardUI() {
+      const body = document.getElementById("leaderboardBody");
+      if (!body) return;
+      body.innerHTML = "";
+      const sorted = [...leaderboard].sort((a, b) => b.score - a.score);
+      sorted.forEach(entry => {
+        const tr = document.createElement("tr");
+        const nameTd = document.createElement("td");
+        nameTd.textContent = entry.name;
+        const scoreTd = document.createElement("td");
+        scoreTd.textContent = entry.score;
+        const prizeTd = document.createElement("td");
+        prizeTd.textContent = entry.prize;
+        const statusTd = document.createElement("td");
+        statusTd.textContent = entry.status;
+        tr.appendChild(nameTd);
+        tr.appendChild(scoreTd);
+        tr.appendChild(prizeTd);
+        tr.appendChild(statusTd);
+        body.appendChild(tr);
+      });
+    }
+
+    function addResultToLeaderboard({ name, score, prize, status }) {
+      leaderboard.push({ name, score, prize, status });
+      leaderboard.sort((a, b) => b.score - a.score);
+      persistLeaderboard();
+      updateLeaderboardUI();
     }
 
     function clearQuestionForm() {
@@ -977,6 +1063,7 @@
     const MIXED_SUBJECT_NAME = "Misto";
     let subjects = [{ name: "Scienze Umane", questions: [...defaultQuestions] }];
     let questionsData = [...defaultQuestions];
+    let activeQuestions = [];
     let selectedSubject = MIXED_SUBJECT_NAME;
     const defaultStudents = [
       "Mart", "Moha", "Giad", "Emil", "Rick", "Max",
@@ -984,6 +1071,9 @@
       "Kar", "Soph", "Simo", "Marit", "Ludo U", "Giar"
     ];
     let students = [...defaultStudents];
+
+    let correctAnswersCount = 0;
+    let leaderboard = [];
     
     const prizeLevels = [
       "100 €", "200 €", "300 €", "400 €", "500 €",   // Traguardo garantito a 500€ (domanda 5)
@@ -1025,7 +1115,7 @@
     }
     
     async function showQuestion() {
-      if (currentQuestionIndex >= questionsData.length) {
+      if (currentQuestionIndex >= activeQuestions.length) {
         endGame(true);
         return;
       }
@@ -1041,7 +1131,7 @@
       pendingAnswer = null;
       allowAnswer = false;
       
-      let qShuffled = shuffleQuestion(questionsData[currentQuestionIndex]);
+      let qShuffled = shuffleQuestion(activeQuestions[currentQuestionIndex]);
       currentQuestion = qShuffled;
       
       let questionUtterance = new SpeechSynthesisUtterance("Domanda " + (currentQuestionIndex + 1) + ": " + currentQuestion.question);
@@ -1125,6 +1215,7 @@
         if (answerIndex === currentQuestion.correct) {
           btn.classList.remove("confirmed");
           btn.classList.add("correct");
+          correctAnswersCount++;
           const audioWin = document.getElementById("correctSound");
           audioWin.currentTime = 0;
           audioWin.volume = 0.4;
@@ -1221,22 +1312,29 @@
       endGame(false, "0 €");
     }
     
-    function endGame(isWin, finalPrize) {
+    function endGame(isWin, finalPrize = "") {
       document.getElementById("quizContainer").style.display = "none";
       document.getElementById("endGameScreen").style.display = "block";
+      const resolvedPrize = isWin ? prizeLevels[prizeLevels.length - 1] : (finalPrize || "0 €");
+      const finalScore = correctAnswersCount * 100;
+      const status = isWin ? "Vittoria" : "Sconfitta";
+      const playerName = selectedPlayer || "Anonimo";
       let msg = "";
       if (isWin) {
-        msg = `Complimenti ${selectedPlayer}, hai vinto ${prizeLevels[prizeLevels.length - 1]}!`;
+        msg = `Complimenti ${playerName}, hai vinto ${resolvedPrize}! Punteggio: ${finalScore}`;
         presenterSpeak(msg);
       } else {
-        msg = `${selectedPlayer}, hai sbagliato e porti a casa ${finalPrize}.`;
+        msg = `${playerName}, hai sbagliato e porti a casa ${resolvedPrize}. Punteggio: ${finalScore}`;
         presenterSpeak(msg);
       }
+      addResultToLeaderboard({ name: playerName, score: finalScore, prize: resolvedPrize, status });
       document.getElementById("finalScore").textContent = msg;
     }
     
     function restartGame() {
       currentQuestionIndex = 0;
+      correctAnswersCount = 0;
+      activeQuestions = [];
       fiftyFiftyUsed = false;
       profUsed = false;
       changeUsed = false;
@@ -1608,6 +1706,9 @@
         alert("Aggiungi almeno una domanda nella materia selezionata prima di iniziare.");
         return;
       }
+      activeQuestions = shuffleArray(questionsData);
+      currentQuestionIndex = 0;
+      correctAnswersCount = 0;
       document.getElementById("adminPanel").style.display = "none";
       document.getElementById("selectionScreen").style.display = "none";
       rulesAudio = new Audio("Who Wants To Be a Millionaire - Lets Play (Sound Fx HQ).mp3");
