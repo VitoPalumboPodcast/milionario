@@ -439,7 +439,7 @@
     <source src="Theme Walk Down - Who Wants to Be a Millionaire_.mp3" type="audio/mpeg">
   </audio>
   <script>
-    window.addEventListener("load", () => {
+    window.addEventListener("load", async () => {
       const bg = document.getElementById("bgMusic");
       bg.volume = 0.4;
       bg.play().catch(e => console.log("Interazione richiesta per il sottofondo."));
@@ -449,6 +449,7 @@
       startSelectionMusic();
       initBalls();
       drawBalls();
+      await loadDefaultSubjects();
       initializeAdminPanel();
     });
   </script>
@@ -652,14 +653,19 @@
       return subject;
     }
 
+    function getMixedQuestions() {
+      return subjects.flatMap(sub => sub.questions);
+    }
+
     function renderSubjectChoice() {
       const select = document.getElementById("subjectChoice");
       select.innerHTML = "";
-      subjects.forEach(sub => {
+      const options = [MIXED_SUBJECT_NAME, ...subjects.map(sub => sub.name)];
+      options.forEach(name => {
         const opt = document.createElement("option");
-        opt.value = sub.name;
-        opt.textContent = sub.name;
-        if (sub.name === selectedSubject) opt.selected = true;
+        opt.value = name;
+        opt.textContent = name;
+        if (name === selectedSubject) opt.selected = true;
         select.appendChild(opt);
       });
     }
@@ -686,13 +692,17 @@
     }
 
     function setSelectedSubject(name) {
-      const subject = subjects.find(s => s.name === name);
-      if (subject) {
+      if (name === MIXED_SUBJECT_NAME) {
+        selectedSubject = MIXED_SUBJECT_NAME;
+        questionsData = getMixedQuestions();
+      } else {
+        const subject = subjects.find(s => s.name === name);
+        if (!subject) return;
         selectedSubject = subject.name;
         questionsData = [...subject.questions];
-        currentQuestionIndex = 0;
-        renderSubjectChoice();
       }
+      currentQuestionIndex = 0;
+      renderSubjectChoice();
     }
 
     function clearQuestionForm() {
@@ -738,11 +748,15 @@
         .filter(entry => entry.questions.length);
     }
 
-    function applyImportedData(payload) {
+    function applyImportedData(payload, preferredSubject = null) {
       const importedSubjects = normalizeImportedSubjects(payload.subjects || []);
       if (importedSubjects.length) {
         subjects = importedSubjects;
-        selectedSubject = subjects[0].name;
+        if (preferredSubject) {
+          selectedSubject = preferredSubject;
+        } else if (selectedSubject !== MIXED_SUBJECT_NAME && !subjects.find(sub => sub.name === selectedSubject)) {
+          selectedSubject = subjects[0].name;
+        }
         setSelectedSubject(selectedSubject);
         renderSubjectChoice();
         renderSubjectsPreview();
@@ -752,6 +766,20 @@
         initBalls();
         drawBalls();
         renderContestantList();
+      }
+    }
+
+    async function loadDefaultSubjects() {
+      try {
+        const response = await fetch("questions.json");
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const payload = await response.json();
+        applyImportedData(payload, MIXED_SUBJECT_NAME);
+      } catch (error) {
+        console.error("Impossibile caricare le domande predefinite:", error);
+        setSelectedSubject(selectedSubject);
+        renderSubjectChoice();
+        renderSubjectsPreview();
       }
     }
 
@@ -848,9 +876,10 @@
       }
     ];
 
+    const MIXED_SUBJECT_NAME = "Misto";
     let subjects = [{ name: "Generale", questions: [...defaultQuestions] }];
     let questionsData = [...defaultQuestions];
-    let selectedSubject = "Generale";
+    let selectedSubject = MIXED_SUBJECT_NAME;
     const defaultStudents = [
       "Mart", "Moha", "Giad", "Emil", "Rick", "Max",
       "Matt", "Ila P", "Ila B", "Ste", "Ludo A", "Ant",
