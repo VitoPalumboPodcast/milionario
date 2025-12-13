@@ -426,6 +426,13 @@
         </div>
         <p style="font-size:0.9rem; margin-top:8px;">Se il file contiene un array di domande senza materie, verrà creata una materia chiamata "Importate".</p>
       </div>
+      <div class="admin-section">
+        <h3>Classifica</h3>
+        <p>Gestisci le voci salvate localmente nella classifica dei partecipanti.</p>
+        <div class="admin-actions" style="text-align:right;">
+          <button id="resetLeaderboardBtn">Azzera classifica</button>
+        </div>
+      </div>
     </div>
     <!-- SCHERMATA DI SELEZIONE -->
     <div id="selectionScreen">
@@ -873,6 +880,14 @@
       updateLeaderboardUI();
     }
 
+    function resetLeaderboard() {
+      const confirmation = confirm("Vuoi davvero azzerare la classifica? L'operazione non può essere annullata.");
+      if (!confirmation) return;
+      leaderboard = [];
+      localStorage.removeItem("leaderboard");
+      updateLeaderboardUI();
+    }
+
     function clearQuestionForm() {
       document.getElementById("subjectNameInput").value = "";
       document.getElementById("questionInput").value = "";
@@ -1021,6 +1036,7 @@
         const fileInput = document.getElementById("questionFile");
         handleQuestionFile(fileInput.files[0]);
       });
+      document.getElementById("resetLeaderboardBtn").addEventListener("click", resetLeaderboard);
       setupAdminDrawer();
     }
   </script>
