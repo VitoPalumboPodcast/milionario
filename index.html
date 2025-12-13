@@ -1101,12 +1101,22 @@
       if (classUsed) return;
       classUsed = true;
       document.getElementById("btnClass").disabled = true;
-      let audio = new Audio("Theme Contestants - Who Wants to Be a Millionaire_.mp3");
-      audio.volume = 0.4;
-      audio.play();
-      let msg = "La classe vota: la maggioranza sceglie la risposta B. Ascolta il consiglio della tua squadra!";
-      presenterSpeak(msg);
-      document.getElementById("feedback").textContent = msg;
+      const feedback = document.getElementById("feedback");
+      const waitingMessage = "La classe sta votando... attendi 30 secondi per il verdetto.";
+      feedback.textContent = waitingMessage;
+      presenterSpeak(waitingMessage);
+
+      const audienceAudio = new Audio("Who Wants To Be A Millionaire Ask The Audience Lifeline Theme.mp3");
+      audienceAudio.volume = 0.4;
+      audienceAudio.play();
+
+      setTimeout(() => {
+        audienceAudio.pause();
+        audienceAudio.currentTime = 0;
+        const msg = "La classe vota: la maggioranza sceglie la risposta B. Ascolta il consiglio della tua squadra!";
+        presenterSpeak(msg);
+        feedback.textContent = msg;
+      }, 30000);
     }
     
     function retire() {
