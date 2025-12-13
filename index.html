@@ -722,7 +722,16 @@
     }
 
     function shuffleQuestion(q) {
-      let arr = q.answers.map((ans, i) => ({ answer: ans, isCorrect: i === q.correct }));
+      const normalizedAnswers = Array.isArray(q.answers)
+        ? q.answers.map(ans => (typeof ans === "string" ? ans : ""))
+        : [];
+      while (normalizedAnswers.length < 4) normalizedAnswers.push("");
+
+      const normalizedCorrect = (Number.isInteger(q.correct) && q.correct >= 0 && q.correct < normalizedAnswers.length)
+        ? q.correct
+        : 0;
+
+      let arr = normalizedAnswers.map((ans, i) => ({ answer: ans, isCorrect: i === normalizedCorrect }));
       for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [arr[i], arr[j]] = [arr[j], arr[i]];
@@ -1175,19 +1184,22 @@
       
       // (A questo punto si potrebbe inserire un breve incoraggiamento, ma per evitare sovrapposizioni si lascia che il prossimo messaggio vada insieme alla lettura delle risposte)
       
+      const answersForDisplay = (Array.isArray(currentQuestion.answers) ? currentQuestion.answers : []).map(ans => ans || "Risposta non disponibile");
+      while (answersForDisplay.length < 4) answersForDisplay.push("Risposta non disponibile");
+
       // Le risposte compaiono una alla volta: la prima dopo 500ms, la seconda dopo 3500ms, poi 6500ms e 9500ms
       for (let i = 0; i < 4; i++) {
         setTimeout(() => {
           const btn = document.getElementById("answer" + i);
-          btn.textContent = currentQuestion.answers[i];
+          btn.textContent = answersForDisplay[i];
           btn.style.visibility = "visible";
         }, 500 + i * 3000);
       }
-      
-      let answersText = "Risposte possibili: A: " + currentQuestion.answers[0] +
-                        ", B: " + currentQuestion.answers[1] +
-                        ", C: " + currentQuestion.answers[2] +
-                        ", D: " + currentQuestion.answers[3];
+
+      let answersText = "Risposte possibili: A: " + answersForDisplay[0] +
+                        ", B: " + answersForDisplay[1] +
+                        ", C: " + answersForDisplay[2] +
+                        ", D: " + answersForDisplay[3];
       await readAnswers(answersText);
       
       for (let i = 0; i < 4; i++) {
