@@ -1728,6 +1728,7 @@
         selectedPlayer = ball.name;
         document.getElementById("selectedName").textContent = `Concorrente estratto: ${selectedPlayer}`;
         resultEl.textContent = `Concorrente estratto: ${selectedPlayer}`;
+        presenterSpeak(`Concorrente estratto: ${selectedPlayer}. Preparati a raggiungere la postazione!`);
         setTimeout(() => { autoStartGame(); }, 1000);
       }
     }
