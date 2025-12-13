@@ -623,6 +623,17 @@
       utterance.pitch = 1.2;
       speechSynthesis.speak(utterance);
     }
+
+    function speakAndWait(text) {
+      return new Promise(resolve => {
+        speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = "it-IT";
+        utterance.volume = 1;
+        utterance.onend = resolve;
+        speechSynthesis.speak(utterance);
+      });
+    }
   </script>
   
   <!-- Selezione manuale -->
@@ -1729,13 +1740,14 @@
       utterance.volume = 1;
       utterance.onend = () => {
         // Lascia scorrere ancora un po' la musica introduttiva prima di iniziare il gioco
-        setTimeout(() => {
+        setTimeout(async () => {
           if (rulesAudio) { rulesAudio.pause(); rulesAudio.currentTime = 0; rulesAudio = null; }
           document.getElementById("quizContainer").style.display = "block";
           document.getElementById("playerInfo").textContent = `Concorrente: ${selectedPlayer}`;
           populateScoreboard();
-          // Messaggio motivazionale all'inizio del quiz
-          presenterSpeak("Iniziamo il quiz! Buona fortuna!");
+          // Presenta il concorrente prima della prima domanda
+          await speakAndWait(`Concorrente: ${selectedPlayer}.`);
+          await speakAndWait("Iniziamo il quiz! Buona fortuna!");
           showQuestion();
         }, 4000);
       };
