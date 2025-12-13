@@ -15,6 +15,47 @@
       text-align: center;
       padding: 20px;
     }
+    /* --- PANNELLO AMMINISTRAZIONE --- */
+    #adminPanel {
+      background: rgba(0,0,0,0.65);
+      border: 1px solid #0e4a92;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    #adminPanel h2 { margin-bottom: 10px; }
+    .admin-section {
+      margin-top: 10px;
+      padding: 12px;
+      border: 1px dashed #0e4a92;
+      border-radius: 10px;
+      background: rgba(0,0,0,0.4);
+      text-align: left;
+    }
+    .admin-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+      align-items: start;
+    }
+    .admin-grid label { font-size: 0.9rem; }
+    .admin-grid input,
+    .admin-grid select,
+    .admin-grid textarea {
+      width: 100%;
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 0.95rem;
+    }
+    .admin-actions { margin-top: 8px; }
+    .inline-list { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+    .inline-list li { background: #003366; padding: 6px 10px; border-radius: 6px; }
+    .inline-list button { margin-left: 6px; padding: 4px 6px; font-size: 0.85rem; }
+    details.admin-subject { margin-top: 8px; }
+    details.admin-subject summary { cursor: pointer; font-weight: bold; }
+
     header, footer { background-color: #001f3c; padding: 10px; }
     header h1 { font-size: 2rem; margin: 0; }
     header img { max-width: 150px; margin-bottom: 10px; }
@@ -242,10 +283,75 @@
     <h1>Chi Vuol Essere Milionario</h1>
   </header>
   <main>
+    <div id="adminPanel">
+      <h2>Pannello di amministrazione</h2>
+      <p>Gestisci la lista dei concorrenti che finiscono nella lavatrice e crea le materie con le relative domande e risposte.</p>
+      <div class="admin-section">
+        <h3>Concorrenti</h3>
+        <div class="admin-grid">
+          <div>
+            <label for="adminContestant">Nome concorrente</label>
+            <input type="text" id="adminContestant" placeholder="Es. Giulia Rossi">
+          </div>
+          <div class="admin-actions">
+            <button id="addContestantBtn">Aggiungi concorrente</button>
+          </div>
+        </div>
+        <ul id="contestantList" class="inline-list"></ul>
+      </div>
+      <div class="admin-section">
+        <h3>Materie e domande</h3>
+        <div class="admin-grid">
+          <div>
+            <label for="subjectNameInput">Materia</label>
+            <input type="text" id="subjectNameInput" placeholder="Es. Storia, Scienze">
+          </div>
+          <div>
+            <label for="questionInput">Domanda</label>
+            <textarea id="questionInput" rows="2" placeholder="Inserisci la domanda"></textarea>
+          </div>
+          <div>
+            <label for="answerA">Risposta A</label>
+            <input type="text" id="answerA" placeholder="Opzione A">
+          </div>
+          <div>
+            <label for="answerB">Risposta B</label>
+            <input type="text" id="answerB" placeholder="Opzione B">
+          </div>
+          <div>
+            <label for="answerC">Risposta C</label>
+            <input type="text" id="answerC" placeholder="Opzione C">
+          </div>
+          <div>
+            <label for="answerD">Risposta D</label>
+            <input type="text" id="answerD" placeholder="Opzione D">
+          </div>
+          <div>
+            <label for="correctAnswer">Risposta corretta</label>
+            <select id="correctAnswer">
+              <option value="0">A</option>
+              <option value="1">B</option>
+              <option value="2">C</option>
+              <option value="3">D</option>
+            </select>
+          </div>
+          <div class="admin-actions">
+            <button id="addQuestionBtn">Salva domanda</button>
+          </div>
+        </div>
+        <div id="subjectsPreview"></div>
+      </div>
+    </div>
     <!-- SCHERMATA DI SELEZIONE -->
     <div id="selectionScreen">
       <h2>Seleziona il concorrente</h2>
       <p>Avvia l’estrazione oppure inserisci manualmente il nome</p>
+      <div class="admin-grid" style="margin-top:10px; text-align:left;">
+        <div>
+          <label for="subjectChoice">Materia per le domande</label>
+          <select id="subjectChoice"></select>
+        </div>
+      </div>
       <!-- Selezione manuale -->
       <div id="manualSelection">
         <input type="text" id="playerNameInput" placeholder="Inserisci il nome del concorrente">
@@ -330,6 +436,7 @@
       startSelectionMusic();
       initBalls();
       drawBalls();
+      initializeAdminPanel();
     });
   </script>
   
@@ -501,13 +608,138 @@
       return { question: q.question, answers: newAnswers, correct: newCorrect };
     }
   </script>
+
+  <!-- Gestione pannello amministrazione -->
+  <script>
+    function renderContestantList() {
+      const list = document.getElementById("contestantList");
+      list.innerHTML = "";
+      students.forEach((name, index) => {
+        const li = document.createElement("li");
+        li.textContent = name;
+        const removeBtn = document.createElement("button");
+        removeBtn.textContent = "Rimuovi";
+        removeBtn.onclick = () => {
+          students.splice(index, 1);
+          initBalls();
+          drawBalls();
+          renderContestantList();
+        };
+        li.appendChild(removeBtn);
+        list.appendChild(li);
+      });
+    }
+
+    function upsertSubject(name) {
+      let subject = subjects.find(s => s.name.toLowerCase() === name.toLowerCase());
+      if (!subject) {
+        subject = { name, questions: [] };
+        subjects.push(subject);
+      }
+      return subject;
+    }
+
+    function renderSubjectChoice() {
+      const select = document.getElementById("subjectChoice");
+      select.innerHTML = "";
+      subjects.forEach(sub => {
+        const opt = document.createElement("option");
+        opt.value = sub.name;
+        opt.textContent = sub.name;
+        if (sub.name === selectedSubject) opt.selected = true;
+        select.appendChild(opt);
+      });
+    }
+
+    function renderSubjectsPreview() {
+      const preview = document.getElementById("subjectsPreview");
+      preview.innerHTML = "";
+      subjects.forEach(sub => {
+        const detail = document.createElement("details");
+        detail.classList.add("admin-subject");
+        const summary = document.createElement("summary");
+        summary.textContent = `${sub.name} (${sub.questions.length} domande)`;
+        detail.appendChild(summary);
+        const ul = document.createElement("ul");
+        ul.style.marginLeft = "16px";
+        sub.questions.forEach(q => {
+          const li = document.createElement("li");
+          li.textContent = q.question;
+          ul.appendChild(li);
+        });
+        detail.appendChild(ul);
+        preview.appendChild(detail);
+      });
+    }
+
+    function setSelectedSubject(name) {
+      const subject = subjects.find(s => s.name === name);
+      if (subject) {
+        selectedSubject = subject.name;
+        questionsData = [...subject.questions];
+        currentQuestionIndex = 0;
+        renderSubjectChoice();
+      }
+    }
+
+    function clearQuestionForm() {
+      document.getElementById("subjectNameInput").value = "";
+      document.getElementById("questionInput").value = "";
+      document.getElementById("answerA").value = "";
+      document.getElementById("answerB").value = "";
+      document.getElementById("answerC").value = "";
+      document.getElementById("answerD").value = "";
+      document.getElementById("correctAnswer").value = "0";
+    }
+
+    function handleAddQuestion() {
+      const subjectName = document.getElementById("subjectNameInput").value.trim();
+      const questionText = document.getElementById("questionInput").value.trim();
+      const answers = [
+        document.getElementById("answerA").value.trim(),
+        document.getElementById("answerB").value.trim(),
+        document.getElementById("answerC").value.trim(),
+        document.getElementById("answerD").value.trim()
+      ];
+      const correct = parseInt(document.getElementById("correctAnswer").value, 10);
+      if (!subjectName || !questionText || answers.some(a => !a)) {
+        alert("Compila tutti i campi per salvare la domanda.");
+        return;
+      }
+      const subject = upsertSubject(subjectName);
+      subject.questions.push({ question: questionText, answers, correct });
+      setSelectedSubject(subject.name);
+      renderSubjectsPreview();
+      clearQuestionForm();
+    }
+
+    function initializeAdminPanel() {
+      renderContestantList();
+      renderSubjectChoice();
+      renderSubjectsPreview();
+      document.getElementById("addContestantBtn").addEventListener("click", () => {
+        const name = document.getElementById("adminContestant").value.trim();
+        if (!name) { alert("Inserisci un nome valido."); return; }
+        students.push(name);
+        document.getElementById("adminContestant").value = "";
+        initBalls();
+        drawBalls();
+        renderContestantList();
+      });
+      document.getElementById("addQuestionBtn").addEventListener("click", handleAddQuestion);
+      document.getElementById("subjectChoice").addEventListener("change", (e) => {
+        setSelectedSubject(e.target.value);
+        renderSubjectsPreview();
+      });
+    }
+  </script>
   
   <!-- SCRIPT DEL QUIZ (PRIMA VERSIONE) -->
   <script>
     // Variabile globale per il nome estratto (se non scelto manualmente)
     let selectedPlayer = null;
     let currentQuestion = null;
-    const questionsData = [
+    const defaultQuestions = [
       { question: "Quale delle seguenti azioni è indicata come un'attività che non aiuta la memorizzazione?", answers: ["Ripetere ad alta voce", "Studiare la sera", "Distribuire lo studio", "Pianificare il tempo"], correct: 1 },
       { question: "La memoria a breve termine ha una durata massima di circa:", answers: ["1 minuto", "10 secondi", "1 ora", "1 giorno"], correct: 1 },
       { question: "Qual è un sinonimo di attenzione sostenuta?", answers: ["Attenzione selettiva", "Restare concentrati", "Attenzione divisa", "Attenzione esogena"], correct: 1 },
@@ -538,15 +770,25 @@
           "Comprensione improvvisa del problema"
         ], correct: 1 
       },
-      { question: "Quale delle seguenti affermazioni descrive meglio l'apprendimento per insight?", 
+      { question: "Quale delle seguenti affermazioni descrive meglio l'apprendimento per insight?",
         answers: [
-          "Associazione meccanica simile al condizionamento classico", 
-          "Apprendimento per tentativi ed errori", 
-          "Comprensione improvvisa della soluzione", 
+          "Associazione meccanica simile al condizionamento classico",
+          "Apprendimento per tentativi ed errori",
+          "Comprensione improvvisa della soluzione",
           "Rinforzo continuo"
-        ], correct: 2 
+        ], correct: 2
       }
     ];
+
+    let subjects = [{ name: "Generale", questions: [...defaultQuestions] }];
+    let questionsData = [...defaultQuestions];
+    let selectedSubject = "Generale";
+    const defaultStudents = [
+      "Mart", "Moha", "Giad", "Emil", "Rick", "Max",
+      "Matt", "Ila P", "Ila B", "Ste", "Ludo A", "Ant",
+      "Kar", "Soph", "Simo", "Marit", "Ludo U", "Giar"
+    ];
+    let students = [...defaultStudents];
     
     const prizeLevels = [
       "100 €", "200 €", "300 €", "400 €", "500 €",   // Traguardo garantito a 500€ (domanda 5)
@@ -1026,13 +1268,6 @@
     const startStopBtn = document.getElementById("start-stop-btn");
     const collectedEl = document.getElementById("collected");
     
-    // Array di studenti per le palline
-    const students = [
-      "Mart", "Moha", "Giad", "Emil", "Rick", "Max",
-      "Matt", "Ila P", "Ila B", "Ste", "Ludo A", "Ant",
-      "Kar", "Soph", "Simo", "Marit", "Ludo U", "Giar"
-    ];
-    
     function initBalls() {
       balls = [];
       for (let i = 0; i < students.length; i++) {
@@ -1163,6 +1398,10 @@
     let rulesAudio = null;
     function autoStartGame() {
       stopSelectionMusic();
+      if (!questionsData.length) {
+        alert("Aggiungi almeno una domanda nella materia selezionata prima di iniziare.");
+        return;
+      }
       document.getElementById("selectionScreen").style.display = "none";
       rulesAudio = new Audio("Who Wants To Be a Millionaire - Lets Play (Sound Fx HQ).mp3");
       rulesAudio.volume = 0.4;
