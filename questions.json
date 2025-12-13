@@ -1,7 +1,7 @@
 {
   "subjects": [
     {
-      "name": "Letteratura Italiana",
+      "name": "Lingua e Letteratura Italiana 2",
       "questions": [
         {
           "question": "Come si chiama l'autore romano Ovidio con il suo sistema di tre nomi (trianomina)?",
@@ -206,7 +206,7 @@
       ]
     },
     {
-      "name": "Costituzione",
+      "name": "Diritto ed Economia 2",
       "questions": [
         {
           "question": "Quale caratteristica della Costituzione Repubblicana è stata adottata per proteggerla dalla facile manipolazione legislativa, a differenza dello Statuto Albertino?",
@@ -411,7 +411,7 @@
       ]
     },
     {
-      "name": "Scienze Umane",
+      "name": "Scienze Umane 1",
       "questions": [
         {
           "question": "Quale delle seguenti azioni è indicata come un'attività che non aiuta la memorizzazione?",
