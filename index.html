@@ -16,13 +16,42 @@
       padding: 20px;
     }
     /* --- PANNELLO AMMINISTRAZIONE --- */
-    #adminPanel {
-      background: rgba(0,0,0,0.65);
-      border: 1px solid #0e4a92;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 20px;
+    #adminMenuToggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1100;
+      background: #0e4a92;
+      border: 2px solid gold;
+      color: #fff;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
     }
+    #drawerOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      z-index: 1050;
+    }
+    #drawerOverlay.active { display: block; }
+    #adminPanel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 380px;
+      max-width: 90vw;
+      height: 100vh;
+      overflow-y: auto;
+      background: rgba(0,0,0,0.9);
+      border-left: 2px solid #0e4a92;
+      box-shadow: -6px 0 15px rgba(0,0,0,0.5);
+      padding: 20px;
+      transform: translateX(100%);
+      transition: transform 0.3s ease;
+      z-index: 1200;
+    }
+    #adminPanel.open { transform: translateX(0); }
     #adminPanel h2 { margin-bottom: 10px; }
     .admin-section {
       margin-top: 10px;
@@ -67,6 +96,23 @@
       border-radius: 10px;
       margin-bottom: 20px;
     }
+    .subject-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin: 15px 0;
+    }
+    .subject-button {
+      min-width: 120px;
+      background: #0e4a92;
+      border: 2px solid gold;
+      color: #fff;
+      font-weight: bold;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .subject-button:hover { background: #105cb5; transform: translateY(-2px); }
+    .subject-button.active { background: gold; color: #001f3c; }
     /* Selezione manuale */
     #manualSelection { margin-top: 20px; }
     #playerNameInput {
@@ -278,13 +324,18 @@
   </style>
 </head>
 <body>
+  <button id="adminMenuToggle" aria-controls="adminPanel" aria-expanded="false">Gestisci domande</button>
+  <div id="drawerOverlay"></div>
   <header>
     <img src="https://upload.wikimedia.org/wikipedia/en/4/4e/WWTBAMUS2020Logo.png" alt="Logo Chi Vuol Essere Milionario">
     <h1>Chi Vuol Essere Milionario</h1>
   </header>
   <main>
     <div id="adminPanel">
-      <h2>Pannello di amministrazione</h2>
+      <div style="display:flex; justify-content: space-between; align-items: center; gap: 10px;">
+        <h2 style="margin: 0;">Pannello di amministrazione</h2>
+        <button id="closeAdminPanel" aria-label="Chiudi pannello">Chiudi</button>
+      </div>
       <p>Gestisci la lista dei concorrenti che finiscono nella lavatrice e crea le materie con le relative domande e risposte.</p>
       <div class="admin-section">
         <h3>Concorrenti</h3>
@@ -359,6 +410,7 @@
     <div id="selectionScreen">
       <h2>Seleziona il concorrente</h2>
       <p>Avvia l’estrazione oppure inserisci manualmente il nome</p>
+      <div class="subject-buttons" id="subjectButtons"></div>
       <div class="admin-grid" style="margin-top:10px; text-align:left;">
         <div>
           <label for="subjectChoice">Materia per le domande</label>
@@ -668,6 +720,25 @@
         if (name === selectedSubject) opt.selected = true;
         select.appendChild(opt);
       });
+      renderSubjectButtons();
+    }
+
+    function renderSubjectButtons() {
+      const container = document.getElementById("subjectButtons");
+      if (!container) return;
+      container.innerHTML = "";
+      const options = [MIXED_SUBJECT_NAME, ...subjects.map(sub => sub.name)];
+      options.forEach(name => {
+        const button = document.createElement("button");
+        button.className = "subject-button";
+        if (name === selectedSubject) button.classList.add("active");
+        button.textContent = name;
+        button.addEventListener("click", () => {
+          setSelectedSubject(name);
+          renderSubjectButtons();
+        });
+        container.appendChild(button);
+      });
     }
 
     function renderSubjectsPreview() {
@@ -805,6 +876,32 @@
       reader.readAsText(file);
     }
 
+    function setupAdminDrawer() {
+      const panel = document.getElementById("adminPanel");
+      const toggleBtn = document.getElementById("adminMenuToggle");
+      const overlay = document.getElementById("drawerOverlay");
+      const closeBtn = document.getElementById("closeAdminPanel");
+      if (!panel || !toggleBtn || !overlay || !closeBtn) return;
+      const openPanel = () => {
+        panel.classList.add("open");
+        overlay.classList.add("active");
+        toggleBtn.setAttribute("aria-expanded", "true");
+      };
+      const closePanel = () => {
+        panel.classList.remove("open");
+        overlay.classList.remove("active");
+        toggleBtn.setAttribute("aria-expanded", "false");
+      };
+      toggleBtn.addEventListener("click", () => {
+        panel.classList.contains("open") ? closePanel() : openPanel();
+      });
+      overlay.addEventListener("click", closePanel);
+      closeBtn.addEventListener("click", closePanel);
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closePanel();
+      });
+    }
+
     function initializeAdminPanel() {
       renderContestantList();
       renderSubjectChoice();
@@ -827,6 +924,7 @@
         const fileInput = document.getElementById("questionFile");
         handleQuestionFile(fileInput.files[0]);
       });
+      setupAdminDrawer();
     }
   </script>
   
