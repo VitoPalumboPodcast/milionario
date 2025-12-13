@@ -316,6 +316,9 @@
   <audio id="afterConfirmSound">
     <source src="dopo_la_conferma.mp3" type="audio/mpeg">
   </audio>
+  <audio id="selectionMusic" loop>
+    <source src="sceltaconcorrenti.mp3" type="audio/mpeg">
+  </audio>
   <script>
     window.addEventListener("load", () => {
       const bg = document.getElementById("bgMusic");
@@ -324,6 +327,7 @@
       const startSound = document.getElementById("startSound");
       startSound.volume = 0.6;
       startSound.play().catch(e => console.log("Interazione richiesta per il suono di inizio."));
+      startSelectionMusic();
       initBalls();
       drawBalls();
     });
@@ -382,6 +386,19 @@
       audio.currentTime = 0;
       audio.volume = 0.6;
       audio.play();
+    }
+
+    function startSelectionMusic() {
+      const selectionAudio = document.getElementById("selectionMusic");
+      selectionAudio.currentTime = 0;
+      selectionAudio.volume = 0.5;
+      selectionAudio.play().catch(e => console.log("Interazione richiesta per la musica di selezione."));
+    }
+
+    function stopSelectionMusic() {
+      const selectionAudio = document.getElementById("selectionMusic");
+      selectionAudio.pause();
+      selectionAudio.currentTime = 0;
     }
   </script>
   
@@ -781,6 +798,7 @@
       document.getElementById("selectionScreen").style.display = "block";
       document.getElementById("selectedName").textContent = "";
       document.getElementById("bgMusic").play();
+      startSelectionMusic();
     }
   </script>
   
@@ -1144,6 +1162,7 @@
   <script>
     let rulesAudio = null;
     function autoStartGame() {
+      stopSelectionMusic();
       document.getElementById("selectionScreen").style.display = "none";
       rulesAudio = new Audio("Who Wants To Be a Millionaire - Lets Play (Sound Fx HQ).mp3");
       rulesAudio.volume = 0.4;
