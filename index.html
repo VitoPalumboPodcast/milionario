@@ -341,6 +341,19 @@
         </div>
         <div id="subjectsPreview"></div>
       </div>
+      <div class="admin-section">
+        <h3>Domande predefinite da file</h3>
+        <div class="admin-grid">
+          <div>
+            <label for="questionFile">Carica un file JSON (formato: { "subjects": [ { "name": "Materia", "questions": [ { "question": "Testo", "answers": ["A","B","C","D"], "correct": 0 } ] } ], "contestants": ["Nome1", "Nome2"] }) oppure una semplice lista di domande)</label>
+            <input type="file" id="questionFile" accept="application/json">
+          </div>
+          <div class="admin-actions">
+            <button id="loadQuestionFileBtn">Usa domande predefinite</button>
+          </div>
+        </div>
+        <p style="font-size:0.9rem; margin-top:8px;">Se il file contiene un array di domande senza materie, verrà creata una materia chiamata "Importate".</p>
+      </div>
     </div>
     <!-- SCHERMATA DI SELEZIONE -->
     <div id="selectionScreen">
@@ -423,7 +436,7 @@
     <source src="dopo_la_conferma.mp3" type="audio/mpeg">
   </audio>
   <audio id="selectionMusic" loop>
-    <source src="Theme Contestants - Who Wants to Be a Millionaire_.mp3" type="audio/mpeg">
+    <source src="Theme Walk Down - Who Wants to Be a Millionaire_.mp3" type="audio/mpeg">
   </audio>
   <script>
     window.addEventListener("load", () => {
@@ -713,6 +726,57 @@
       clearQuestionForm();
     }
 
+    function normalizeImportedSubjects(importedSubjects) {
+      return importedSubjects
+        .filter(entry => entry && entry.name && Array.isArray(entry.questions))
+        .map(entry => ({
+          name: entry.name,
+          questions: entry.questions
+            .filter(q => q && q.question && Array.isArray(q.answers) && q.answers.length === 4 && Number.isInteger(q.correct))
+            .map(q => ({ question: q.question, answers: q.answers, correct: q.correct }))
+        }))
+        .filter(entry => entry.questions.length);
+    }
+
+    function applyImportedData(payload) {
+      const importedSubjects = normalizeImportedSubjects(payload.subjects || []);
+      if (importedSubjects.length) {
+        subjects = importedSubjects;
+        selectedSubject = subjects[0].name;
+        setSelectedSubject(selectedSubject);
+        renderSubjectChoice();
+        renderSubjectsPreview();
+      }
+      if (Array.isArray(payload.contestants) && payload.contestants.length) {
+        students = [...payload.contestants];
+        initBalls();
+        drawBalls();
+        renderContestantList();
+      }
+    }
+
+    function handleQuestionFile(file) {
+      if (!file) { alert("Seleziona un file JSON valido."); return; }
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const text = event.target.result;
+          const parsed = JSON.parse(text);
+          if (Array.isArray(parsed)) {
+            applyImportedData({ subjects: [{ name: "Importate", questions: parsed }] });
+          } else if (parsed && Array.isArray(parsed.subjects)) {
+            applyImportedData(parsed);
+          } else {
+            throw new Error("Formato JSON non riconosciuto.");
+          }
+          alert("Domande predefinite caricate con successo.");
+        } catch (err) {
+          alert("Errore nel caricamento del file: " + err.message);
+        }
+      };
+      reader.readAsText(file);
+    }
+
     function initializeAdminPanel() {
       renderContestantList();
       renderSubjectChoice();
@@ -730,6 +794,10 @@
       document.getElementById("subjectChoice").addEventListener("change", (e) => {
         setSelectedSubject(e.target.value);
         renderSubjectsPreview();
+      });
+      document.getElementById("loadQuestionFileBtn").addEventListener("click", () => {
+        const fileInput = document.getElementById("questionFile");
+        handleQuestionFile(fileInput.files[0]);
       });
     }
   </script>
@@ -1041,6 +1109,7 @@
       document.getElementById("selectedName").textContent = "";
       document.getElementById("bgMusic").play();
       startSelectionMusic();
+      document.getElementById("adminPanel").style.display = "block";
     }
   </script>
   
@@ -1402,6 +1471,7 @@
         alert("Aggiungi almeno una domanda nella materia selezionata prima di iniziare.");
         return;
       }
+      document.getElementById("adminPanel").style.display = "none";
       document.getElementById("selectionScreen").style.display = "none";
       rulesAudio = new Audio("Who Wants To Be a Millionaire - Lets Play (Sound Fx HQ).mp3");
       rulesAudio.volume = 0.4;
