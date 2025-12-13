@@ -304,7 +304,7 @@
   
   <!-- AUDIO -->
   <audio id="bgMusic">
-    <source src="https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/shvbgpagxi/01%20Main%20Theme.mp3" type="audio/mpeg">
+    <source src="Keith Strachan & Matthew Strachan - Opening Theme.mp3" type="audio/mpeg">
     Il tuo browser non supporta l'audio.
   </audio>
   <audio id="startSound">
@@ -331,40 +331,33 @@
   
   <!-- Suoni di supporto -->
   <audio id="tickSound">
-    <source src="https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/shvbgpagxi/tick.mp3" type="audio/mpeg">
+    <source src="Who Wants To Be A Millionaire - Phone A Friend Clock (Old Format).mp3" type="audio/mpeg">
   </audio>
   <audio id="correctSound">
-    <source src="https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/evrltjdslu/52%20%24250%2C000%20Win.mp3" type="audio/mpeg">
+    <source src="Who's Was Correct - Who Wants to Be a Millionaire_.mp3" type="audio/mpeg">
   </audio>
   <audio id="wrongSound">
-    <source src="https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/rjhzqvzlas/16%20%242%2C000%20Lose.mp3" type="audio/mpeg">
+    <source src="Who Wants to be a Millionaire Suspense - Sound Effect (HD).mp3" type="audio/mpeg">
   </audio>
   <audio id="fourAnswersAudio">
-    <source src="https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/imybhhfcox/08%20Four%20Answers%20in%20Order.mp3" type="audio/mpeg">
+    <source src="Four Answers in Order -12 seconds- Who Wants to Be a Millionaire_.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="answerCueAudio">
+    <source src="Who wants to be a millionaire _ Sound Effect..mp3" type="audio/mpeg">
   </audio>
   <!-- Musica di suspense (impostata dinamicamente) -->
   <audio id="suspenseAudio" loop></audio>
   <script>
     document.getElementById("suspenseAudio").volume = 0.4;
     function getSuspenseTrack() {
-      if (currentQuestionIndex === 9) {
-        return "https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/qeevmijfco/29%20%2416%2C000%20Question.mp3";
-      } else if (currentQuestionIndex === 6) {
-        return "https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/aokfkhoocj/14%20%242%2C000%20Question.mp3";
-      } else if (currentQuestionIndex === 7) {
-        return "https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/mksvhlwtxc/19%20%244%2C000%20Question.mp3";
-      } else if (currentQuestionIndex === 8) {
-        return "https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/jpwsuamjxy/24%20%248%2C000%20Question.mp3";
-      } else if (currentQuestionIndex === 10) {
-        return "https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/zitvaxtwyx/34%20%2432%2C000%20Question.mp3";
-      } else if (currentQuestionIndex === 12) {
-        return "https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/foourcouxn/44%20%24125%2C000%20Question.mp3";
-      } else if (currentQuestionIndex === 13) {
-        return "https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/wvlsjrnuzp/54%20%24500%2C000%20Question.mp3";
-      } else if (currentQuestionIndex === 14) {
-        return "https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/hidywqfcea/59%20%241%2C000%2C000%20Question.mp3";
+      if (currentQuestionIndex >= 13) {
+        return "$1,000,000 Final Answer - Who Wants to Be a Millionaire_.mp3";
+      } else if (currentQuestionIndex >= 10) {
+        return "$500,000 Question - Who Wants to Be a Millionaire_.mp3";
+      } else if (currentQuestionIndex >= 6) {
+        return "$2,000 Question - Who Wants to Be a Millionaire_.mp3";
       } else {
-        return "https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/gbsxnbblhj/11%20%24100-%241%2C000%20Questions.mp3";
+        return "$100-$1000 Questions - Who Wants to Be a Millionaire_.mp3";
       }
     }
   </script>
@@ -372,7 +365,7 @@
   <!-- Suono per conferma definitiva -->
   <script>
     function playDefinitiveSound() {
-      let audio = new Audio("https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/awanowgypj/15%20%242%2C000%20Final%20Answer-.mp3");
+      let audio = new Audio("$1,000,000 Final Answer - Who Wants to Be a Millionaire_.mp3");
       audio.volume = 0.4;
       audio.play();
     }
@@ -437,13 +430,29 @@
     function readAnswers(text) {
       return new Promise((resolve) => {
         const answersAudio = document.getElementById("fourAnswersAudio");
+        const answerCueAudio = document.getElementById("answerCueAudio");
         answersAudio.currentTime = 0;
         answersAudio.play();
+        let cueCount = 0;
+        const cueInterval = setInterval(() => {
+          answerCueAudio.currentTime = 0;
+          answerCueAudio.play();
+          cueCount++;
+          if (cueCount === 4) {
+            clearInterval(cueInterval);
+          }
+        }, 3000);
+        const stopAnswersTimer = setTimeout(() => {
+          answersAudio.pause();
+          answersAudio.currentTime = 0;
+        }, 12000);
         let utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = "it-IT";
         utterance.volume = 1;
         utterance.onend = function() {
           setTimeout(() => {
+            clearInterval(cueInterval);
+            clearTimeout(stopAnswersTimer);
             answersAudio.pause();
             answersAudio.currentTime = 0;
             const suspenseAudio = document.getElementById("suspenseAudio");
@@ -662,7 +671,8 @@
         if (answerIndex === currentQuestion.correct) {
           btn.classList.remove("confirmed");
           btn.classList.add("correct");
-          let audioWin = new Audio("https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/evrltjdslu/52%20%24250%2C000%20Win.mp3");
+          const audioWin = document.getElementById("correctSound");
+          audioWin.currentTime = 0;
           audioWin.volume = 0.4;
           audioWin.play();
           presenterSpeak("Risposta corretta! Bravo, sei inarrestabile!");
@@ -698,7 +708,7 @@
       if (fiftyFiftyUsed) return;
       fiftyFiftyUsed = true;
       document.getElementById("btn50").disabled = true;
-      let audio = new Audio("https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/oqmqjluggn/67%2050-50.mp3");
+      let audio = new Audio("Who Wants To Be A Millionaire Music - Fastest Finger First.mp3");
       audio.volume = 0.4;
       audio.play();
       const q = currentQuestion;
@@ -735,7 +745,7 @@
       if (classUsed) return;
       classUsed = true;
       document.getElementById("btnClass").disabled = true;
-      let audio = new Audio("https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/lwhnnzheda/68%20Ask%20The%20Audience.mp3");
+      let audio = new Audio("Theme Contestants - Who Wants to Be a Millionaire_.mp3");
       audio.volume = 0.4;
       audio.play();
       let msg = "La classe vota: la maggioranza sceglie la risposta B. Ascolta il consiglio della tua squadra!";
@@ -934,7 +944,8 @@
         if (answerIndex === currentQuestion2.correct) {
           btn.classList.remove("confirmed");
           btn.classList.add("correct");
-          let audioWin = new Audio("https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/evrltjdslu/52%20%24250%2C000%20Win.mp3");
+          const audioWin = document.getElementById("correctSound");
+          audioWin.currentTime = 0;
           audioWin.volume = 0.4;
           audioWin.play();
           presenterSpeak("Risposta corretta! Bravo, sei inarrestabile!");
@@ -1134,7 +1145,7 @@
     let rulesAudio = null;
     function autoStartGame() {
       document.getElementById("selectionScreen").style.display = "none";
-      rulesAudio = new Audio("https://eta.vgmtreasurechest.com/soundtracks/who-wants-to-be-a-millionaire-the-album/pempnhynuo/03%20Explain%20The%20Rules.mp3");
+      rulesAudio = new Audio("Who Wants To Be a Millionaire - Lets Play (Sound Fx HQ).mp3");
       rulesAudio.volume = 0.4;
       rulesAudio.play();
       presenterSpeak("Le regole sono semplici: risponderai a 15 domande. Dopo che il conduttore avrà letto la domanda, verranno elencate le quattro possibili risposte.");
