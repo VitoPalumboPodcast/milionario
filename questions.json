@@ -1,0 +1,214 @@
+{
+  "subjects": [
+    {
+      "name": "Letteratura Italiana",
+      "questions": [
+        {
+          "question": "Come si chiama l'autore romano Ovidio con il suo sistema di tre nomi (trianomina)?",
+          "answers": ["Publio Virgilio Marone", "Quinto Ovidio Settimio", "Publio Ovidio Nasone", "Marco Ovidio Marziale"],
+          "correct": 2
+        },
+        {
+          "question": "Qual è il tema centrale e unificante dell'opera Le Metamorfosi di Ovidio?",
+          "answers": ["La staticità delle cose", "La guerra tra gli eroi", "La trasformazione o mutazione", "L'amore non corrisposto"],
+          "correct": 2
+        },
+        {
+          "question": "In quale città nacque Publio Ovidio Nasone?",
+          "answers": ["Roma", "Recanati", "Mantova", "Sulmona"],
+          "correct": 3
+        },
+        {
+          "question": "Qual è il termine giuridico latino utilizzato per definire l'allontanamento di Ovidio da Roma, che gli permise di mantenere i suoi beni?",
+          "answers": ["Exilium", "Mos Maiorum", "Caput Mundi", "Relegatio"],
+          "correct": 3
+        },
+        {
+          "question": "Qual è la località remota sul Mar Nero dove Ovidio fu esiliato?",
+          "answers": ["Frigia", "Parnaso", "Tomi", "Ventotene"],
+          "correct": 2
+        },
+        {
+          "question": "Quale opera di Ovidio fu considerata 'scandalosa' in quanto trattava dell'arte della seduzione, tematica contraria alla politica moralizzatrice di Augusto?",
+          "answers": ["Le Metamorfosi", "Amores", "Eroides", "Ars amatoria"],
+          "correct": 3
+        },
+        {
+          "question": "Quali due celebri autori sono citati come parte del Circolo di Mecenate, insieme a Ovidio?",
+          "answers": ["Manzoni e Leopardi", "Dante e D'Annunzio", "Virgilio e Orazio", "Giovenale e Marziale"],
+          "correct": 2
+        },
+        {
+          "question": "Da quanti libri è costituito il poema Le Metamorfosi di Ovidio?",
+          "answers": ["10", "15", "20", "38"],
+          "correct": 1
+        },
+        {
+          "question": "Quale autore italiano successivo è citato come influenzato dalle opere di Ovidio, in particolare per la tematica e lo stile?",
+          "answers": ["Giovanni Pascoli", "Alessandro Manzoni", "Dante Alighieri", "Vincenzo Cardarelli"],
+          "correct": 2
+        },
+        {
+          "question": "A quale secolo fa riferimento Alessandro Manzoni ne I Promessi Sposi attraverso la menzione delle 'Grida' e della dominazione spagnola?",
+          "answers": ["Il Settecento (1700)", "Il Seicento (1600)", "Il Cinquecento (1500)", "L'Ottocento (1800)"],
+          "correct": 1
+        },
+        {
+          "question": "Quale termine dispregiativo è applicato al luogotenente di Don Rodrigo ne I Promessi Sposi?",
+          "answers": ["Bravo", "Scagnozzo", "Manigoldo", "Caporalaccio"],
+          "correct": 3
+        },
+        {
+          "question": "Come viene descritta l'abitazione di Filemone e Bauci nel racconto ovidiano, prima della trasformazione in tempio?",
+          "answers": ["Ricca e sontuosa", "Trasandata e cadente", "Povera ma decorosa", "Spaziosa e confortevole"],
+          "correct": 2
+        },
+        {
+          "question": "Quale mito ovidiano spiega l'origine di una pianta sempreverde (alloro), simbolo di gloria eterna per la poesia?",
+          "answers": ["Filemone e Bauci", "Apollo e Dafne", "Orfeo ed Euridice", "Dedalo e Icaro"],
+          "correct": 1
+        },
+        {
+          "question": "In quale modo Don Rodrigo si presenta all'Innominato per chiedere il suo aiuto nel rapire Lucia?",
+          "answers": ["Con tono minaccioso per dimostrare la sua forza", "Con tono scherzoso per non svelare il piano", "Con tono garbato e mansueto, perché aveva bisogno del suo aiuto", "Con grande disprezzo, data la cattiva fama dell'Innominato"],
+          "correct": 2
+        },
+        {
+          "question": "Nel contesto del racconto di Filemone e Bauci, la frugalità del pasto offerto agli dei è sinonimo di:",
+          "answers": ["Piatto molto elaborato", "Qualcosa di insipido", "Umiltà e preparazione poco elaborata", "Eccessiva abbondanza"],
+          "correct": 2
+        },
+        {
+          "question": "Quale figura retorica viene utilizzata da Manzoni per sottolineare il contrasto tra il nome 'Malannotte' e il simbolo (un 'sole raggiante') dell'insegna della taverna?",
+          "answers": ["Ironia", "Climax", "Similitudine", "Metafora"],
+          "correct": 0
+        },
+        {
+          "question": "Qual è l'ordine cronologico degli eventi rispettato nella narrazione, in opposizione all'intreccio (che può alterare tale ordine)?",
+          "answers": ["Fabula", "Sequenza", "Prosa", "Epistole"],
+          "correct": 0
+        },
+        {
+          "question": "Come si chiama il fenomeno metrico per cui due vocali, una alla fine di una parola e l'altra all'inizio della successiva, vengono pronunciate insieme, formando un'unica sillaba?",
+          "answers": ["Iato", "Dieresi", "Sinalefe", "Sincope"],
+          "correct": 2
+        },
+        {
+          "question": "La descrizione del territorio in cui sorge il castello dell'Innominato (erte, schegge, macigni) anticipa simbolicamente:",
+          "answers": ["La bellezza della natura lombarda", "La conversione dell'Innominato", "La natura fosca e misteriosa del personaggio", "L'origine umile della sua famiglia"],
+          "correct": 2
+        },
+        {
+          "question": "Qual è il tema centrale dell'opera L'Infinito di Giacomo Leopardi, discussa come 'chiave delle emozioni'?",
+          "answers": ["La gioia incontenibile", "L'amore giovanile", "La dolcezza del perdersi nell'immensità", "La rabbia verso il destino"],
+          "correct": 2
+        }
+      ]
+    },
+    {
+      "name": "Costituzione",
+      "questions": [
+        {
+          "question": "Quale caratteristica della Costituzione Repubblicana è stata adottata per proteggerla dalla facile manipolazione legislativa, a differenza dello Statuto Albertino?",
+          "answers": ["Democratica", "Flessibile", "Votata", "Rigida"],
+          "correct": 3
+        },
+        {
+          "question": "Secondo l'Articolo 138 della Costituzione, se una legge di revisione costituzionale viene approvata da entrambe le Camere con una maggioranza di due terzi dei componenti:",
+          "answers": ["Deve essere obbligatoriamente sottoposta a referendum popolare.", "Non può mai essere promulgata.", "Non si fa luogo a referendum popolare.", "Entra in vigore dopo un anno dalla pubblicazione."],
+          "correct": 2
+        },
+        {
+          "question": "Quale fra questi era un elemento che caratterizzava lo Statuto Albertino e ne permise lo 'stravolgimento' durante la dittatura fascista?",
+          "answers": ["La divisione dei poteri in tre organi distinti.", "La natura di Costituzione Programmatica.", "La flessibilità, che ne permetteva la modifica con legge ordinaria.", "Il riconoscimento dei diritti inviolabili dell'uomo."],
+          "correct": 2
+        },
+        {
+          "question": "Come viene definita, secondo le fonti, la democrazia esercitata dal popolo attraverso il referendum, la petizione e l'iniziativa legislativa popolare?",
+          "answers": ["Democrazia totalitaria", "Democrazia parlamentare", "Democrazia diretta", "Democrazia censitaria"],
+          "correct": 2
+        },
+        {
+          "question": "Secondo l'Articolo 71 della Costituzione, in che modo il popolo può esercitare l’iniziativa delle leggi (iniziativa legislativa popolare)?",
+          "answers": ["Mediante la richiesta di almeno cinque Consigli regionali.", "Con la petizione al Parlamento firmata da almeno 500.000 elettori.", "Mediante la proposta di un progetto redatto in articoli, da parte di almeno cinquantamila elettori.", "Per approvazione di una mozione da parte di un quinto dei componenti di una Camera."],
+          "correct": 2
+        },
+        {
+          "question": "Quale data è considerata fondamentale, in quanto segnò la prima volta in cui le donne poterono esercitare il diritto di votare e di essere elette, oltre a scegliere tra Monarchia e Repubblica?",
+          "answers": ["25 aprile 1945 (Festa della Liberazione)", "1° gennaio 1948 (Entrata in vigore della Costituzione)", "2 giugno 1946", "28 ottobre 1922 (Marcia su Roma)"],
+          "correct": 2
+        },
+        {
+          "question": "Qual era la condizione giuridica ed economica delle donne ai tempi del primo voto (1946), come riportato dalle fonti?",
+          "answers": ["Godevano già di uguaglianza giuridica e parità salariale con gli uomini.", "Erano esonerate dal voto perché considerate principalmente casalinghe.", "Erano sottoposte alla potestà maritale e ricevevano salari che erano la metà di quelli degli uomini.", "Erano elette in numero pari a quello degli uomini nell'Assemblea Costituente."],
+          "correct": 2
+        },
+        {
+          "question": "Quante donne furono elette (su 556 deputati totali) per far parte dell’Assemblea Costituente che redasse la Costituzione del 1948?",
+          "answers": ["15", "46", "75", "21"],
+          "correct": 3
+        },
+        {
+          "question": "Quale principio è sancito dall'Articolo 1, secondo comma, della Costituzione?",
+          "answers": ["Lo Stato e la Chiesa sono indipendenti e sovrani.", "La Repubblica riconosce e garantisce i diritti inviolabili.", "La sovranità appartiene al popolo, che la esercita nelle forme e nei limiti della Costituzione.", "L'Italia ripudia la guerra."],
+          "correct": 2
+        },
+        {
+          "question": "L'Articolo 2 stabilisce che la Repubblica riconosce i 'diritti inviolabili dell'uomo'. Cosa significa il termine 'riconosce' in questo contesto?",
+          "answers": ["Lo Stato concede tali diritti ai cittadini.", "Che tali diritti sono connaturati alla persona umana, indipendentemente dal riconoscimento statale.", "Che i diritti devono essere attuati solo nelle formazioni sociali.", "Che tali diritti non possono essere oggetto di revisione costituzionale."],
+          "correct": 1
+        },
+        {
+          "question": "Qual è il compito specifico della Repubblica sancito dal secondo comma dell'Articolo 3 (uguaglianza sostanziale)?",
+          "answers": ["Promuovere lo sviluppo della cultura e della ricerca scientifica.", "Garantire la parità di retribuzione a tutti i cittadini, a prescindere dal lavoro svolto.", "Rimuovere gli ostacoli di ordine economico e sociale che impediscono il pieno sviluppo della persona umana e l'effettiva partecipazione di tutti.", "Assicurare l'equilibrio tra entrate e spese del proprio bilancio."],
+          "correct": 2
+        },
+        {
+          "question": "Secondo l'Articolo 4 della Costituzione, perché il lavoro è considerato uno strumento di realizzazione della persona e non solo un mezzo per avere un reddito?",
+          "answers": ["Perché assicura l'autonomia finanziaria del Parlamento.", "Perché permette l'espressione, la socialità e la crescita della persona, realizzando i valori di dignità e uguaglianza.", "Perché lo Stato ha il dovere di pagare le tasse per tutti i cittadini.", "Perché concorre solo al progresso materiale della società."],
+          "correct": 1
+        },
+        {
+          "question": "Quali accordi regolano i rapporti tra lo Stato e la Chiesa cattolica, in base all'Articolo 7 della Costituzione?",
+          "answers": ["Le Leggi di Intesa, che hanno rango ordinario.", "I Patti Lateranensi, le cui modificazioni accettate da entrambe le parti non richiedono revisione costituzionale.", "La legislazione concorrente.", "Le norme del Diritto Internazionale generalmente riconosciute."],
+          "correct": 1
+        },
+        {
+          "question": "In base all'Articolo 8, le confessioni religiose diverse dalla cattolica hanno il diritto di organizzarsi, a quale condizione?",
+          "answers": ["Che stipulino i Patti Lateranensi con lo Stato.", "Che le loro Intese siano approvate a maggioranza qualificata in Parlamento.", "Che i loro statuti interni non contrastino con l’ordinamento giuridico italiano.", "Che prevedano la religione cattolica come obbligatoria nelle scuole private."],
+          "correct": 2
+        },
+        {
+          "question": "Quale elemento è stato aggiunto all'Articolo 9 della Costituzione nel 2022, rendendo esplicito l'impegno della Repubblica?",
+          "answers": ["La tutela del patrimonio storico e artistico.", "La promozione della ricerca scientifica e tecnica.", "La tutela dell’ambiente, della biodiversità e degli ecosistemi, anche nell’interesse delle future generazioni.", "Il diritto-dovere di pagare le tasse."],
+          "correct": 2
+        },
+        {
+          "question": "Qual è la garanzia che l'Articolo 10 offre allo straniero perseguitato nel suo Paese, secondo la Costituzione italiana?",
+          "answers": ["Il diritto a richiedere la cittadinanza immediata.", "Il diritto a un indennizzo immediato.", "Il diritto d’asilo nel territorio della Repubblica.", "La possibilità di estradizione per reati politici."],
+          "correct": 2
+        },
+        {
+          "question": "Qual è l'unico caso in cui, secondo il principio di pacifismo sancito dall'Articolo 11, l'Italia potrebbe ricorrere alla guerra?",
+          "answers": ["Come mezzo di risoluzione delle controversie internazionali.", "In caso di autodifesa, cioè se venisse attaccata da un altro Paese.", "Come strumento di offesa alla libertà degli altri popoli.", "Per ottenere la modifica dei trattati internazionali."],
+          "correct": 1
+        },
+        {
+          "question": "Cosa si intende con l'espressione 'limitazioni di sovranità' prevista dall'Articolo 11?",
+          "answers": ["Il trasferimento del potere legislativo al Presidente della Repubblica.", "La riduzione del numero dei parlamentari per ragioni economiche.", "L'adesione a organismi sovranazionali, come l'ONU o l'Unione Europea, per assicurare la pace e la giustizia.", "La possibilità per il popolo di votare direttamente sulle leggi tributarie."],
+          "correct": 2
+        },
+        {
+          "question": "Quali sono state le tre principali culture politiche che, accomunate dall'antifascismo, si sono accordate per la stesura della Costituzione ('Compromissoria')?",
+          "answers": ["Liberale, Monarchica, Nazionalista.", "Cattolica, Socialista, Liberale.", "Comunista, Fascista, Monarchica.", "Repubblicana, Federalista, Monarchica."],
+          "correct": 1
+        },
+        {
+          "question": "Nello Statuto Albertino, la possibilità di voto era limitata ai soli cittadini maschi in base a quale criterio?",
+          "answers": ["All'alfabetizzazione e alla residenza nella capitale.", "All'età minima di 40 anni.", "Al censo (ricchezza posseduta), istituendo un voto censitario.", "All'appartenenza alla classe operaia."],
+          "correct": 2
+        }
+      ]
+    }
+  ]
+}
