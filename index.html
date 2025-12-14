@@ -1771,7 +1771,7 @@
       clearTimeout(nameOverlayTimeout);
       nameOverlayTimeout = setTimeout(() => {
         overlay.classList.remove("show");
-      }, 4500);
+      }, 7000);
     }
 
     function depositBall(ball) {
@@ -1781,7 +1781,7 @@
         resultEl.textContent = `Concorrente estratto: ${selectedPlayer}`;
         showNameOverlay(selectedPlayer);
         presenterSpeak(`Concorrente estratto: ${selectedPlayer}. Preparati a raggiungere la postazione!`);
-        setTimeout(() => { autoStartGame(); }, 4500);
+        setTimeout(() => { autoStartGame(); }, 7000);
       }
     }
     
