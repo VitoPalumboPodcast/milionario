@@ -1147,6 +1147,7 @@
       "32.000 €", "64.000 €", "125.000 €", "500.000 €", "1.000.000 €"
     ];
     let currentQuestionIndex = 0;
+    let currentPrizeLevel = -1;
     let pendingAnswer = null;
     let fiftyFiftyUsed = false, profUsed = false, changeUsed = false, classUsed = false;
     let allowAnswer = false;
@@ -1168,8 +1169,10 @@
         const li = document.getElementById("score-" + i);
         if (li) li.classList.remove("active");
       }
-      const activeItem = document.getElementById("score-" + currentQuestionIndex);
-      if (activeItem) activeItem.classList.add("active");
+      if (currentPrizeLevel >= 0) {
+        const activeItem = document.getElementById("score-" + currentPrizeLevel);
+        if (activeItem) activeItem.classList.add("active");
+      }
     }
     function announceCurrentPrize() {
       let prize = prizeLevels[currentQuestionIndex];
@@ -1291,6 +1294,8 @@
           audioWin.play();
           presenterSpeak("Risposta corretta! Bravo, sei inarrestabile!");
           document.getElementById("feedback").textContent = "Risposta corretta!";
+          currentPrizeLevel = currentQuestionIndex;
+          updateScoreboard();
           announceCurrentPrize();
           setTimeout(() => {
             currentQuestionIndex++;
@@ -1480,6 +1485,7 @@
       "32.000 €", "64.000 €", "125.000 €", "500.000 €", "1.000.000 €"
     ];
     let currentQuestionIndex2 = 0;
+    let currentPrizeLevel2 = -1;
     let pendingAnswer2 = null;
     let fiftyFiftyUsed2 = false, profUsed2 = false, changeUsed2 = false, classUsed2 = false;
     let allowAnswer2 = false;
@@ -1501,8 +1507,10 @@
         const li = document.getElementById("score-" + i);
         if (li) li.classList.remove("active");
       }
-      const activeItem = document.getElementById("score-" + currentQuestionIndex2);
-      if (activeItem) activeItem.classList.add("active");
+      if (currentPrizeLevel2 >= 0) {
+        const activeItem = document.getElementById("score-" + currentPrizeLevel2);
+        if (activeItem) activeItem.classList.add("active");
+      }
     }
     function announceCurrentPrize2() {
       let prize = prizeLevels2[currentQuestionIndex2];
@@ -1604,6 +1612,8 @@
           audioWin.play();
           presenterSpeak("Risposta corretta! Bravo, sei inarrestabile!");
           document.getElementById("feedback").textContent = "Risposta corretta!";
+          currentPrizeLevel2 = currentQuestionIndex2;
+          updateScoreboard2();
           announceCurrentPrize2();
           setTimeout(() => {
             currentQuestionIndex2++;
@@ -1814,6 +1824,7 @@
       resetLifelines();
       activeQuestions = shuffleArray(questionsData);
       currentQuestionIndex = 0;
+      currentPrizeLevel = -1;
       correctAnswersCount = 0;
       document.getElementById("adminPanel").style.display = "none";
       document.getElementById("selectionScreen").style.display = "none";
