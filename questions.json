@@ -564,6 +564,321 @@
           "correct": 2
         }
       ]
+    },
+    {
+      "name": "Cultura Generale - Facile",
+      "questions": [
+        {
+          "question": "Qual è la capitale della Francia?",
+          "answers": [
+            "Roma",
+            "Madrid",
+            "Parigi",
+            "Berlino"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Chi ha dipinto \"La Gioconda\"?",
+          "answers": [
+            "Leonardo da Vinci",
+            "Michelangelo",
+            "Raffaello",
+            "Caravaggio"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "Quale pianeta è noto come \"pianeta rosso\"?",
+          "answers": [
+            "Venere",
+            "Marte",
+            "Giove",
+            "Saturno"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "In che continente scorre il fiume Nilo?",
+          "answers": [
+            "Asia",
+            "Africa",
+            "Europa",
+            "America"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Qual è il simbolo chimico dell'acqua?",
+          "answers": [
+            "H2O",
+            "CO2",
+            "O2",
+            "NaCl"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "Quanti giorni ha un anno bisestile?",
+          "answers": [
+            "364",
+            "365",
+            "366",
+            "367"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Qual è l'animale terrestre più veloce?",
+          "answers": [
+            "Ghepardo",
+            "Leopardo",
+            "Cavallo",
+            "Leone"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "Chi ha scritto \"Il piccolo principe\"?",
+          "answers": [
+            "Jules Verne",
+            "Antoine de Saint-Exupéry",
+            "Victor Hugo",
+            "Charles Dickens"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Qual è la moneta ufficiale utilizzata in Italia?",
+          "answers": [
+            "Euro",
+            "Lira",
+            "Dollaro",
+            "Sterlina"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "In quale mare si affaccia l'Italia?",
+          "answers": [
+            "Mar Nero",
+            "Mar Baltico",
+            "Mar Mediterraneo",
+            "Oceano Atlantico"
+          ],
+          "correct": 2
+        }
+      ]
+    },
+    {
+      "name": "Cultura Generale - Intermedio",
+      "questions": [
+        {
+          "question": "Chi fu il primo uomo a mettere piede sulla Luna?",
+          "answers": [
+            "Neil Armstrong",
+            "Buzz Aldrin",
+            "Yuri Gagarin",
+            "Michael Collins"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "Quale città è attraversata dal fiume Danubio?",
+          "answers": [
+            "Parigi",
+            "Vienna",
+            "Londra",
+            "Madrid"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Chi ha scritto \"I Promessi Sposi\"?",
+          "answers": [
+            "Giacomo Leopardi",
+            "Alessandro Manzoni",
+            "Italo Calvino",
+            "Giovanni Verga"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "In quale anno cadde il Muro di Berlino?",
+          "answers": [
+            "1968",
+            "1975",
+            "1989",
+            "1995"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Qual è il gas più abbondante nell'atmosfera terrestre?",
+          "answers": [
+            "Ossigeno",
+            "Azoto",
+            "Argon",
+            "Anidride carbonica"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Quale scienziato ha formulato la teoria della relatività?",
+          "answers": [
+            "Isaac Newton",
+            "Albert Einstein",
+            "Galileo Galilei",
+            "Niels Bohr"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "In quale Paese si trova Machu Picchu?",
+          "answers": [
+            "Perù",
+            "Messico",
+            "Cile",
+            "Guatemala"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "Quale compositore è autore della \"Nona Sinfonia\"?",
+          "answers": [
+            "Wolfgang Amadeus Mozart",
+            "Ludwig van Beethoven",
+            "Johann Sebastian Bach",
+            "Frédéric Chopin"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Chi ha affrescato la volta della Cappella Sistina in Vaticano?",
+          "answers": [
+            "Leonardo da Vinci",
+            "Raffaello Sanzio",
+            "Caravaggio",
+            "Michelangelo Buonarroti"
+          ],
+          "correct": 3
+        },
+        {
+          "question": "Qual è la lingua ufficiale del Brasile?",
+          "answers": [
+            "Spagnolo",
+            "Portoghese",
+            "Francese",
+            "Inglese"
+          ],
+          "correct": 1
+        }
+      ]
+    },
+    {
+      "name": "Cultura Generale - Difficile",
+      "questions": [
+        {
+          "question": "Quale fisico formulò il principio di indeterminazione?",
+          "answers": [
+            "Werner Heisenberg",
+            "Max Planck",
+            "Erwin Schrödinger",
+            "Paul Dirac"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "In quale anno venne firmato il Trattato di Maastricht che istituì l'Unione Europea?",
+          "answers": [
+            "1984",
+            "1992",
+            "1999",
+            "2004"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Chi è l'autore de \"Il nome della rosa\"?",
+          "answers": [
+            "Andrea Camilleri",
+            "Italo Calvino",
+            "Umberto Eco",
+            "Dino Buzzati"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Quale elemento chimico ha numero atomico 79?",
+          "answers": [
+            "Argento",
+            "Mercurio",
+            "Platino",
+            "Oro"
+          ],
+          "correct": 3
+        },
+        {
+          "question": "In quale città si trova il Palazzo d'Inverno, teatro della Rivoluzione d'Ottobre del 1917?",
+          "answers": [
+            "Mosca",
+            "San Pietroburgo",
+            "Kiev",
+            "Minsk"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Chi scoprì i raggi X nel 1895?",
+          "answers": [
+            "Henri Becquerel",
+            "Wilhelm Conrad Röntgen",
+            "Marie Curie",
+            "Ernest Rutherford"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Chi compose l'opera \"La Traviata\"?",
+          "answers": [
+            "Gioachino Rossini",
+            "Giuseppe Verdi",
+            "Gaetano Donizetti",
+            "Vincenzo Bellini"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Quale antica civiltà costruì la città di Petra, oggi in Giordania?",
+          "answers": [
+            "Romani",
+            "Persiani",
+            "Nabatei",
+            "Assiri"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Quale matematico medievale rese celebre la sequenza che porta il suo nome studiando la crescita di una popolazione di conigli?",
+          "answers": [
+            "Cartesio",
+            "Pitagora",
+            "Fibonacci",
+            "Eulero"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Qual è il più grande satellite naturale del Sistema Solare?",
+          "answers": [
+            "Titano",
+            "Ganimede",
+            "Europa",
+            "Callisto"
+          ],
+          "correct": 1
+        }
+      ]
     }
   ]
 }
