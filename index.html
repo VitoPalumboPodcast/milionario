@@ -743,6 +743,9 @@
     function readAnswers(text) {
       return new Promise((resolve) => {
         stopAllEffects();
+        if (fourAnswersAudio) {
+          playExclusiveEffect(fourAnswersAudio, { volume: 0.5, resetTime: true, loop: false });
+        }
         let cueCount = 0;
         const playAnswerCue = () => {
           playExclusiveEffect(answerCueAudio, { resetTime: true });
