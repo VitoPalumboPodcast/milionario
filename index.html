@@ -735,35 +735,24 @@
     function readAnswers(text) {
       return new Promise((resolve) => {
         stopAllEffects();
-        if (fourAnswersAudio) {
-          playExclusiveEffect(fourAnswersAudio, { resetTime: true });
-        }
         let cueCount = 0;
+        const playAnswerCue = () => {
+          playExclusiveEffect(answerCueAudio, { resetTime: true });
+        };
         const cueInterval = setInterval(() => {
-          if (!answerCueAudio) return;
-          answerCueAudio.currentTime = 0;
-          answerCueAudio.play().catch(err => console.log("Riproduzione audio bloccata:", err));
+          playAnswerCue();
           cueCount++;
           if (cueCount === 4) {
             clearInterval(cueInterval);
           }
         }, 3000);
-        const stopAnswersTimer = setTimeout(() => {
-          if (!fourAnswersAudio) return;
-          fourAnswersAudio.pause();
-          fourAnswersAudio.currentTime = 0;
-        }, 12000);
         let utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = "it-IT";
         utterance.volume = 1;
         utterance.onend = function() {
           setTimeout(() => {
             clearInterval(cueInterval);
-            clearTimeout(stopAnswersTimer);
-            if (fourAnswersAudio) {
-              fourAnswersAudio.pause();
-              fourAnswersAudio.currentTime = 0;
-            }
+            stopAllEffects();
             if (suspenseAudio) {
               suspenseAudio.src = getSuspenseTrack();
               playExclusiveEffect(suspenseAudio, { volume: 0.4, resetTime: true, loop: true });
