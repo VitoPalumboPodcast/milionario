@@ -592,22 +592,30 @@
       return audio;
     }
 
-    const selectionAudio = registerEffectAudioById("selectionMusic");
-    const startAudio = registerEffectAudioById("startSound");
-    const postAnswerAudio = registerEffectAudioById("postAnswerSound");
-    const afterConfirmAudio = registerEffectAudioById("afterConfirmSound");
-    const tickAudio = registerEffectAudioById("tickSound");
-    const correctAudio = registerEffectAudioById("correctSound");
-    const wrongAudio = registerEffectAudioById("wrongSound");
-    const fourAnswersAudio = registerEffectAudioById("fourAnswersAudio");
-    const answerCueAudio = registerEffectAudioById("answerCueAudio");
-    const suspenseAudio = registerEffectAudioById("suspenseAudio");
-    const definitiveAudio = createEffectAudio("$1,000,000 Final Answer - Who Wants to Be a Millionaire_.mp3");
-    const fastestFingerAudio = createEffectAudio("Who Wants To Be A Millionaire Music - Fastest Finger First.mp3");
-    const audienceAudio = createEffectAudio("Who Wants To Be A Millionaire Ask The Audience Lifeline Theme.mp3");
+    let selectionAudio, startAudio, postAnswerAudio, afterConfirmAudio, tickAudio, correctAudio, wrongAudio, fourAnswersAudio, answerCueAudio, suspenseAudio;
+    let definitiveAudio, fastestFingerAudio, audienceAudio;
+
+    function initializeAudioElements() {
+      selectionAudio = registerEffectAudioById("selectionMusic");
+      startAudio = registerEffectAudioById("startSound");
+      postAnswerAudio = registerEffectAudioById("postAnswerSound");
+      afterConfirmAudio = registerEffectAudioById("afterConfirmSound");
+      tickAudio = registerEffectAudioById("tickSound");
+      correctAudio = registerEffectAudioById("correctSound");
+      wrongAudio = registerEffectAudioById("wrongSound");
+      fourAnswersAudio = registerEffectAudioById("fourAnswersAudio");
+      answerCueAudio = registerEffectAudioById("answerCueAudio");
+      suspenseAudio = registerEffectAudioById("suspenseAudio");
+      if (suspenseAudio) suspenseAudio.volume = 0.4;
+
+      if (!definitiveAudio) definitiveAudio = createEffectAudio("$1,000,000 Final Answer - Who Wants to Be a Millionaire_.mp3");
+      if (!fastestFingerAudio) fastestFingerAudio = createEffectAudio("Who Wants To Be A Millionaire Music - Fastest Finger First.mp3");
+      if (!audienceAudio) audienceAudio = createEffectAudio("Who Wants To Be A Millionaire Ask The Audience Lifeline Theme.mp3");
+    }
   </script>
   <script>
     window.addEventListener("load", async () => {
+      initializeAudioElements();
       const bg = document.getElementById("bgMusic");
       bg.volume = 0.4;
       bg.play().catch(e => console.log("Interazione richiesta per il sottofondo."));
