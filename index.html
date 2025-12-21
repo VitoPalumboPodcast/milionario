@@ -557,13 +557,87 @@
     <source src="Theme Walk Down - Who Wants to Be a Millionaire_.mp3" type="audio/mpeg">
   </audio>
   <script>
+    const musicAudios = new Set();
+    const sfxAudios = new Set();
+
+    function registerMusicAudio(element) {
+      if (element) musicAudios.add(element);
+      return element;
+    }
+
+    function registerSfxAudio(element) {
+      if (element) sfxAudios.add(element);
+      return element;
+    }
+
+    function registerMusicAudioById(id) {
+      return registerMusicAudio(document.getElementById(id));
+    }
+
+    function registerSfxAudioById(id) {
+      return registerSfxAudio(document.getElementById(id));
+    }
+
+    function stopAllMusic(except = null) {
+      musicAudios.forEach(audio => {
+        if (audio && audio !== except) {
+          audio.pause();
+          audio.currentTime = 0;
+        }
+      });
+    }
+
+    function playExclusiveMusic(audio, { volume, resetTime = true, loop } = {}) {
+      if (!audio) return;
+      stopAllMusic(audio);
+      if (typeof loop === "boolean") audio.loop = loop;
+      if (typeof volume === "number") audio.volume = volume;
+      if (resetTime) audio.currentTime = 0;
+      audio.play().catch(err => console.log("Riproduzione audio bloccata:", err));
+    }
+
+    function playSfx(audio, { volume, resetTime = true } = {}) {
+      if (!audio) return;
+      if (typeof volume === "number") audio.volume = volume;
+      if (resetTime) audio.currentTime = 0;
+      audio.play().catch(err => console.log("Riproduzione audio bloccata:", err));
+    }
+
+    function createMusicAudio(src) {
+      const audio = new Audio(src);
+      musicAudios.add(audio);
+      return audio;
+    }
+
+    function createSfxAudio(src) {
+      const audio = new Audio(src);
+      sfxAudios.add(audio);
+      return audio;
+    }
+
+    // Tracce musicali (esclusive tra loro)
+    const selectionAudio = registerMusicAudioById("selectionMusic");
+    const suspenseAudio = registerMusicAudioById("suspenseAudio");
+    const definitiveAudio = createMusicAudio("$1,000,000 Final Answer - Who Wants to Be a Millionaire_.mp3");
+    const fastestFingerAudio = createMusicAudio("Who Wants To Be A Millionaire Music - Fastest Finger First.mp3");
+    const audienceAudio = createMusicAudio("Who Wants To Be A Millionaire Ask The Audience Lifeline Theme.mp3");
+    const fourAnswersAudio = registerMusicAudioById("fourAnswersAudio");
+
+    // Effetti sonori sovrapponibili (possono stare con la sintesi vocale)
+    const startAudio = registerSfxAudioById("startSound");
+    const postAnswerAudio = registerSfxAudioById("postAnswerSound");
+    const afterConfirmAudio = registerSfxAudioById("afterConfirmSound");
+    const tickAudio = registerSfxAudioById("tickSound");
+    const correctAudio = registerSfxAudioById("correctSound");
+    const wrongAudio = registerSfxAudioById("wrongSound");
+    const answerCueAudio = registerSfxAudioById("answerCueAudio");
+  </script>
+  <script>
     window.addEventListener("load", async () => {
       const bg = document.getElementById("bgMusic");
       bg.volume = 0.4;
       bg.play().catch(e => console.log("Interazione richiesta per il sottofondo."));
-      const startSound = document.getElementById("startSound");
-      startSound.volume = 0.6;
-      startSound.play().catch(e => console.log("Interazione richiesta per il suono di inizio."));
+      playSfx(startAudio, { volume: 0.6 });
       startSelectionMusic();
       initBalls();
       drawBalls();
@@ -592,7 +666,7 @@
   <!-- Musica di suspense (impostata dinamicamente) -->
   <audio id="suspenseAudio" loop></audio>
   <script>
-    document.getElementById("suspenseAudio").volume = 0.4;
+    if (suspenseAudio) suspenseAudio.volume = 0.4;
     function getSuspenseTrack() {
       if (currentQuestionIndex >= 13) {
         return "$1,000,000 Final Answer - Who Wants to Be a Millionaire_.mp3";
@@ -609,34 +683,23 @@
   <!-- Suono per conferma definitiva -->
   <script>
     function playDefinitiveSound() {
-      let audio = new Audio("$1,000,000 Final Answer - Who Wants to Be a Millionaire_.mp3");
-      audio.volume = 0.4;
-      audio.play();
+      playExclusiveMusic(definitiveAudio, { volume: 0.4 });
     }
 
     function playPostAnswerSound() {
-      const audio = document.getElementById("postAnswerSound");
-      audio.currentTime = 0;
-      audio.volume = 0.6;
-      audio.play();
+      playSfx(postAnswerAudio, { volume: 0.6 });
     }
 
     function playAfterConfirmSound() {
-      const audio = document.getElementById("afterConfirmSound");
-      audio.currentTime = 0;
-      audio.volume = 0.6;
-      audio.play();
+      playSfx(afterConfirmAudio, { volume: 0.6 });
     }
 
     function startSelectionMusic() {
-      const selectionAudio = document.getElementById("selectionMusic");
-      selectionAudio.currentTime = 0;
-      selectionAudio.volume = 0.5;
-      selectionAudio.play().catch(e => console.log("Interazione richiesta per la musica di selezione."));
+      playExclusiveMusic(selectionAudio, { volume: 0.5 });
     }
 
     function stopSelectionMusic() {
-      const selectionAudio = document.getElementById("selectionMusic");
+      if (!selectionAudio) return;
       selectionAudio.pause();
       selectionAudio.currentTime = 0;
     }
@@ -697,22 +760,24 @@
   <script>
     function readAnswers(text) {
       return new Promise((resolve) => {
-        const answersAudio = document.getElementById("fourAnswersAudio");
-        const answerCueAudio = document.getElementById("answerCueAudio");
-        answersAudio.currentTime = 0;
-        answersAudio.play();
+        stopAllMusic();
+        if (fourAnswersAudio) {
+          playExclusiveMusic(fourAnswersAudio, { resetTime: true });
+        }
         let cueCount = 0;
         const cueInterval = setInterval(() => {
+          if (!answerCueAudio) return;
           answerCueAudio.currentTime = 0;
-          answerCueAudio.play();
+          answerCueAudio.play().catch(err => console.log("Riproduzione audio bloccata:", err));
           cueCount++;
           if (cueCount === 4) {
             clearInterval(cueInterval);
           }
         }, 3000);
         const stopAnswersTimer = setTimeout(() => {
-          answersAudio.pause();
-          answersAudio.currentTime = 0;
+          if (!fourAnswersAudio) return;
+          fourAnswersAudio.pause();
+          fourAnswersAudio.currentTime = 0;
         }, 12000);
         let utterance = new SpeechSynthesisUtterance(text);
         utterance.lang = "it-IT";
@@ -721,12 +786,14 @@
           setTimeout(() => {
             clearInterval(cueInterval);
             clearTimeout(stopAnswersTimer);
-            answersAudio.pause();
-            answersAudio.currentTime = 0;
-            const suspenseAudio = document.getElementById("suspenseAudio");
-            suspenseAudio.src = getSuspenseTrack();
-            suspenseAudio.currentTime = 0;
-            suspenseAudio.play();
+            if (fourAnswersAudio) {
+              fourAnswersAudio.pause();
+              fourAnswersAudio.currentTime = 0;
+            }
+            if (suspenseAudio) {
+              suspenseAudio.src = getSuspenseTrack();
+              playExclusiveMusic(suspenseAudio, { volume: 0.4, resetTime: true, loop: true });
+            }
             allowAnswer = true;
             for (let i = 0; i < 4; i++) {
               document.getElementById("answer" + i).disabled = false;
@@ -1271,8 +1338,7 @@
       }
     }
     function confirmAnswer(answerIndex) {
-      document.getElementById("suspenseAudio").pause();
-      document.getElementById("suspenseAudio").currentTime = 0;
+      stopAllMusic();
       playDefinitiveSound();
       playAfterConfirmSound();
       const btn = document.getElementById("answer" + answerIndex);
@@ -1288,10 +1354,7 @@
           btn.classList.remove("confirmed");
           btn.classList.add("correct");
           correctAnswersCount++;
-          const audioWin = document.getElementById("correctSound");
-          audioWin.currentTime = 0;
-          audioWin.volume = 0.4;
-          audioWin.play();
+          playSfx(correctAudio, { volume: 0.4 });
           presenterSpeak("Risposta corretta! Bravo, sei inarrestabile!");
           document.getElementById("feedback").textContent = "Risposta corretta!";
           currentPrizeLevel = currentQuestionIndex;
@@ -1304,10 +1367,7 @@
         } else {
           btn.classList.remove("confirmed");
           btn.classList.add("wrong");
-          const wrongAudio = document.getElementById("wrongSound");
-          wrongAudio.currentTime = 0;
-          wrongAudio.volume = 0.4;
-          wrongAudio.play();
+          playSfx(wrongAudio, { volume: 0.4 });
           presenterSpeak("Risposta sbagliata! Non ti abbattere, continua a provare!");
           document.getElementById("feedback").textContent = "Risposta sbagliata!";
           setTimeout(() => {
@@ -1327,9 +1387,7 @@
       if (fiftyFiftyUsed) return;
       fiftyFiftyUsed = true;
       document.getElementById("btn50").disabled = true;
-      let audio = new Audio("Who Wants To Be A Millionaire Music - Fastest Finger First.mp3");
-      audio.volume = 0.4;
-      audio.play();
+      playExclusiveMusic(fastestFingerAudio, { volume: 0.4 });
       const q = currentQuestion;
       const correct = q.correct;
       let indices = [0, 1, 2, 3];
@@ -1384,9 +1442,7 @@
       feedback.textContent = waitingMessage;
       presenterSpeak(waitingMessage);
 
-      const audienceAudio = new Audio("Who Wants To Be A Millionaire Ask The Audience Lifeline Theme.mp3");
-      audienceAudio.volume = 0.4;
-      audienceAudio.play();
+      playExclusiveMusic(audienceAudio, { volume: 0.4 });
 
       setTimeout(() => {
         audienceAudio.pause();
@@ -1591,8 +1647,7 @@
       confirmAnswer2(answerIndex);
     }
     function confirmAnswer2(answerIndex) {
-      document.getElementById("suspenseAudio").pause();
-      document.getElementById("suspenseAudio").currentTime = 0;
+      stopAllMusic();
       playDefinitiveSound();
       const btn = document.getElementById("answer" + answerIndex);
       btn.classList.remove("selected");
@@ -1606,10 +1661,7 @@
         if (answerIndex === currentQuestion2.correct) {
           btn.classList.remove("confirmed");
           btn.classList.add("correct");
-          const audioWin = document.getElementById("correctSound");
-          audioWin.currentTime = 0;
-          audioWin.volume = 0.4;
-          audioWin.play();
+          playSfx(correctAudio, { volume: 0.4 });
           presenterSpeak("Risposta corretta! Bravo, sei inarrestabile!");
           document.getElementById("feedback").textContent = "Risposta corretta!";
           currentPrizeLevel2 = currentQuestionIndex2;
@@ -1622,10 +1674,7 @@
         } else {
           btn.classList.remove("confirmed");
           btn.classList.add("wrong");
-          const wrongAudio = document.getElementById("wrongSound");
-          wrongAudio.currentTime = 0;
-          wrongAudio.volume = 0.4;
-          wrongAudio.play();
+          playSfx(wrongAudio, { volume: 0.4 });
           presenterSpeak("Risposta sbagliata! Non ti abbattere, continua a provare!");
           document.getElementById("feedback").textContent = "Risposta sbagliata!";
           setTimeout(() => {
@@ -1828,9 +1877,10 @@
       correctAnswersCount = 0;
       document.getElementById("adminPanel").style.display = "none";
       document.getElementById("selectionScreen").style.display = "none";
-      rulesAudio = new Audio("Who Wants To Be a Millionaire - Lets Play (Sound Fx HQ).mp3");
-      rulesAudio.volume = 0.4;
-      rulesAudio.play();
+      if (!rulesAudio) {
+        rulesAudio = createMusicAudio("Who Wants To Be a Millionaire - Lets Play (Sound Fx HQ).mp3");
+      }
+      playExclusiveMusic(rulesAudio, { volume: 0.4 });
       const rulesText = "Le regole sono semplici: risponderai a 15 domande. Dopo che il conduttore avrà letto la domanda, verranno elencate le quattro possibili risposte.";
       let utterance = new SpeechSynthesisUtterance(rulesText);
       utterance.lang = "it-IT";
@@ -1838,7 +1888,7 @@
       utterance.onend = () => {
         // Lascia scorrere ancora un po' la musica introduttiva prima di iniziare il gioco
         setTimeout(async () => {
-          if (rulesAudio) { rulesAudio.pause(); rulesAudio.currentTime = 0; rulesAudio = null; }
+          if (rulesAudio) { rulesAudio.pause(); rulesAudio.currentTime = 0; }
           document.getElementById("quizContainer").style.display = "block";
           document.getElementById("playerInfo").textContent = `Concorrente: ${selectedPlayer}`;
           populateScoreboard();
