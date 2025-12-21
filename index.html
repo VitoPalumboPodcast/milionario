@@ -743,7 +743,12 @@
     function readAnswers(text) {
       return new Promise((resolve) => {
         stopAllEffects();
+        const suspenseTrack = getSuspenseTrack();
+        if (suspenseAudio) {
+          suspenseAudio.src = suspenseTrack;
+        }
         if (fourAnswersAudio) {
+          fourAnswersAudio.src = suspenseTrack;
           playExclusiveEffect(fourAnswersAudio, { volume: 0.5, resetTime: true, loop: false });
         }
         let cueCount = 0;
@@ -765,7 +770,7 @@
             clearInterval(cueInterval);
             stopAllEffects();
             if (suspenseAudio) {
-              suspenseAudio.src = getSuspenseTrack();
+              suspenseAudio.src = suspenseTrack;
               playExclusiveEffect(suspenseAudio, { volume: 0.4, resetTime: true, loop: true });
             }
             allowAnswer = true;
