@@ -206,6 +206,211 @@
       ]
     },
     {
+      "name": "Storia di Torre Orsaia",
+      "questions": [
+        {
+          "question": "In quale secolo le fonti medievali attestano per la prima volta il toponimo \"Turris Ursaja\", considerato l'antenato di Torre Orsaia?",
+          "answers": [
+            "X",
+            "XIII",
+            "XV",
+            "XVII"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Quale funzione di controllo strategico esercitava la torre che diede origine al nome di Torre Orsaia?",
+          "answers": [
+            "Osservatorio astronomico borbonico",
+            "Avamposto per la riscossione dei pedaggi doganali interni",
+            "Posto di avvistamento contro le incursioni saracene lungo il Bussento",
+            "Campanile collegato al monastero di San Michele"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Secondo la tradizione etimologica locale, a quale animale si richiama il termine \"Orsaia\" presente nel nome del paese?",
+          "answers": [
+            "Lupo",
+            "Cinghiale",
+            "Orso",
+            "Falco"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Quale ordine monastico di rito bizantino è ritenuto aver promosso la colonizzazione agricola altomedievale nell'area di Torre Orsaia?",
+          "answers": [
+            "Certosini",
+            "Basiliani",
+            "Cistercensi",
+            "Agostiniani"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Quale grande casata feudale cilentana detenne il controllo di Torre Orsaia durante il dominio aragonese del Regno di Napoli?",
+          "answers": [
+            "Sforza",
+            "Sanseverino di Laurino",
+            "Colonna",
+            "Orsini del Balzo"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Con quale provvedimento del 1806 fu abolita la feudalità nel Regno di Napoli, liberando anche Torre Orsaia dai vincoli baronali?",
+          "answers": [
+            "Statuto Albertino",
+            "Patto di Cassibile",
+            "Legge eversiva di Giuseppe Bonaparte",
+            "Risanamento giolittiano"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "In quale provincia amministrativa fu inserita Torre Orsaia dopo la riforma murattiana del 1811?",
+          "answers": [
+            "Principato Ulteriore",
+            "Principato Citeriore (Provincia di Salerno)",
+            "Capitanata",
+            "Terra di Bari"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Quale capoluogo distrettuale del Regno delle Due Sicilie esercitava la giurisdizione amministrativa su Torre Orsaia in età borbonica?",
+          "answers": [
+            "Sala Consilina",
+            "Vallo (poi Vallo della Lucania)",
+            "Potenza",
+            "Avellino"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Con quale consultazione popolare Torre Orsaia sancì l'adesione al Regno d'Italia nel 1860?",
+          "answers": [
+            "Plebiscito per l'Unione al Regno d'Italia",
+            "Referendum istituzionale tra monarchia e repubblica",
+            "Elezione dell'Assemblea Costituente",
+            "Voto amministrativo comunale"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "Quale fase di conflittualità interna del decennio postunitario vide pattugliamenti di Guardia Nazionale nei boschi attorno a Torre Orsaia?",
+          "answers": [
+            "Moti carbonari del 1820",
+            "Insurrezione repubblicana del 1848",
+            "Brigantaggio meridionale degli anni 1860",
+            "Biennio rosso del 1919-1920"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Quale frazione, storicamente nota come avamposto difensivo sul crinale, fu comune autonomo fino al riordinamento amministrativo fascista del 1928?",
+          "answers": [
+            "Castel Ruggero",
+            "Bosco",
+            "Sapri",
+            "Tortorella"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "Quale linea ferroviaria, completata nel 1894, migliorò le comunicazioni di Torre Orsaia con la costa tirrenica?",
+          "answers": [
+            "Roma–Formia–Napoli",
+            "Battipaglia–Reggio Calabria (Tirrenica Meridionale)",
+            "Napoli–Cancello–Benevento",
+            "Adriatica Ancona–Lecce"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Quale grande terremoto del XX secolo colpì il comprensorio cilentano nel 1980, richiedendo interventi di consolidamento anche a Torre Orsaia?",
+          "answers": [
+            "Terremoto del Belice",
+            "Terremoto dell'Irpinia",
+            "Terremoto del Friuli",
+            "Terremoto di Messina"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "In quale anno venne istituito il Parco nazionale del Cilento, Vallo di Diano e Alburni, che include il territorio di Torre Orsaia?",
+          "answers": [
+            "1968",
+            "1978",
+            "1991",
+            "2002"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Quale riconoscimento UNESCO del 1998 coinvolse indirettamente Torre Orsaia come parte del territorio del Parco nazionale del Cilento?",
+          "answers": [
+            "Inserimento nel Patrimonio orale e immateriale",
+            "Iscrizione nella Lista del Patrimonio Mondiale come paesaggio culturale",
+            "Dichiarazione di Riserva della Biosfera transfrontaliera",
+            "Candidatura a Geoparco globale"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Qual è il santo titolare della chiesa madre settecentesca che rappresenta il fulcro religioso storico di Torre Orsaia?",
+          "answers": [
+            "San Giovanni Battista",
+            "San Francesco di Paola",
+            "Sant'Antonio Abate",
+            "San Vito"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "In quale secolo si diffuse a Torre Orsaia la costruzione di palazzi signorili con portali in pietra lavorata che ancora caratterizzano il centro storico?",
+          "answers": [
+            "XIV",
+            "XVI",
+            "XVIII",
+            "XX"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Quale valle fluviale, controllata fin dall'età normanna, determinò la funzione di punto di vedetta svolta storicamente da Torre Orsaia?",
+          "answers": [
+            "Tanagro",
+            "Sele",
+            "Bussento",
+            "Ofanto"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Quale episodio insurrezionale liberale del 1828 nel Cilento ebbe ripercussioni repressive anche nel comprensorio di Torre Orsaia?",
+          "answers": [
+            "Rivolta di Bronte",
+            "Moti di Bosco e del Cilento",
+            "Rivolta di Potenza del 1806",
+            "Repubblica Napoletana del 1799"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Quale diocesi ha esercitato storicamente la giurisdizione ecclesiastica su Torre Orsaia prima dell'istituzione della diocesi di Teggiano-Policastro?",
+          "answers": [
+            "Diocesi di Sorrento",
+            "Diocesi di Amalfi",
+            "Diocesi di Policastro",
+            "Diocesi di Salerno-Campagna-Acerno"
+          ],
+          "correct": 2
+        }
+      ]
+    },
+    {
       "name": "Diritto ed Economia 2",
       "questions": [
         {
