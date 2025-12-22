@@ -556,6 +556,18 @@
   <audio id="selectionMusic" loop>
     <source src="Theme Walk Down - Who Wants to Be a Millionaire_.mp3" type="audio/mpeg">
   </audio>
+  <audio id="questionAttentionAudio">
+    <source src="_en_sound_who-wants-to-be-a-millionaire-attention-question_.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="answerAcceptedAudio">
+    <source src="_en_sound_who-wants-to-be-a-millionaire-answer-accepted_.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="answerRevealAudio">
+    <source src="_en_sound_who-wants-to-be-a-millionaire-the-answer_.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="phoneFriendAudio">
+    <source src="_en_sound_who-wants-to-be-a-millioner-a-small-call-to-a-friend_.mp3" type="audio/mpeg">
+  </audio>
   <script>
     const effectAudios = new Set();
 
@@ -593,7 +605,7 @@
     }
 
     let selectionAudio, startAudio, postAnswerAudio, afterConfirmAudio, tickAudio, correctAudio, wrongAudio, fourAnswersAudio, answerCueAudio, suspenseAudio;
-    let definitiveAudio, fastestFingerAudio, audienceAudio;
+    let definitiveAudio, fastestFingerAudio, audienceAudio, questionAttentionAudio, answerAcceptedAudio, answerRevealAudio, phoneFriendEffectAudio;
 
     function initializeAudioElements() {
       selectionAudio = registerEffectAudioById("selectionMusic");
@@ -606,11 +618,15 @@
       fourAnswersAudio = registerEffectAudioById("fourAnswersAudio");
       answerCueAudio = registerEffectAudioById("answerCueAudio");
       suspenseAudio = registerEffectAudioById("suspenseAudio");
+      questionAttentionAudio = registerEffectAudioById("questionAttentionAudio");
+      answerAcceptedAudio = registerEffectAudioById("answerAcceptedAudio");
+      answerRevealAudio = registerEffectAudioById("answerRevealAudio");
+      phoneFriendEffectAudio = registerEffectAudioById("phoneFriendAudio");
       if (suspenseAudio) suspenseAudio.volume = 0.4;
 
       if (!definitiveAudio) definitiveAudio = createEffectAudio("$1,000,000 Final Answer - Who Wants to Be a Millionaire_.mp3");
-      if (!fastestFingerAudio) fastestFingerAudio = createEffectAudio("Who Wants To Be A Millionaire Music - Fastest Finger First.mp3");
-      if (!audienceAudio) audienceAudio = createEffectAudio("Who Wants To Be A Millionaire Ask The Audience Lifeline Theme.mp3");
+      if (!fastestFingerAudio) fastestFingerAudio = createEffectAudio("_en_sound_who-wants-to-be-a-millionaire-5050_.mp3");
+      if (!audienceAudio) audienceAudio = createEffectAudio("_en_sound_who-wants-to-be-a-millionaire-voting_.mp3");
     }
   </script>
   <script>
