@@ -598,6 +598,14 @@
       audio.play().catch(err => console.log("Riproduzione audio bloccata:", err));
     }
 
+    function playOverlayEffect(audio, { volume, resetTime = true, loop } = {}) {
+      if (!audio) return;
+      if (typeof loop === "boolean") audio.loop = loop;
+      if (typeof volume === "number") audio.volume = volume;
+      if (resetTime) audio.currentTime = 0;
+      audio.play().catch(err => console.log("Riproduzione audio bloccata:", err));
+    }
+
     function createEffectAudio(src) {
       const audio = new Audio(src);
       effectAudios.add(audio);
@@ -801,7 +809,7 @@
             return;
           }
 
-          playExclusiveEffect(answerCueAudio, { resetTime: true });
+          playOverlayEffect(answerCueAudio, { resetTime: true });
           const utterance = new SpeechSynthesisUtterance(`${answersToRead[index].label}: ${answersToRead[index].text}`);
           utterance.lang = "it-IT";
           utterance.volume = 1;
