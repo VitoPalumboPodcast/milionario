@@ -1084,6 +1084,131 @@
           "correct": 1
         }
       ]
+    },
+    {
+      "name": "Domande per bambini di 10 anni",
+      "questions": [
+        {
+          "question": "Quanto fa 5 + 7?",
+          "answers": [
+            "11",
+            "12",
+            "13",
+            "14"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Quale pianeta è chiamato \"Pianeta Blu\"?",
+          "answers": [
+            "Marte",
+            "Terra",
+            "Giove",
+            "Venere"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Quale stagione viene dopo la primavera?",
+          "answers": [
+            "Estate",
+            "Autunno",
+            "Inverno",
+            "Primavera"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "Qual è il fiume più lungo d'Italia?",
+          "answers": [
+            "Arno",
+            "Po",
+            "Tevere",
+            "Adige"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Quanti lati ha un triangolo?",
+          "answers": [
+            "2",
+            "3",
+            "4",
+            "5"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Quale animale fa le fusa quando è felice?",
+          "answers": [
+            "Cane",
+            "Gatto",
+            "Mucca",
+            "Cavallo"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Quale strumento usi per tracciare una linea dritta sul quaderno?",
+          "answers": [
+            "Compasso",
+            "Righello",
+            "Goniometro",
+            "Forbici"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "In quale continente si trova l'Italia?",
+          "answers": [
+            "Asia",
+            "Europa",
+            "Africa",
+            "America"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Chi ha scritto la storia di Pinocchio?",
+          "answers": [
+            "Carlo Collodi",
+            "Gianni Rodari",
+            "Italo Calvino",
+            "Luigi Pirandello"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "Quale sport si gioca con un pallone arancione e un canestro?",
+          "answers": [
+            "Calcio",
+            "Basket",
+            "Pallavolo",
+            "Rugby"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Quale di questi alimenti è una verdura?",
+          "answers": [
+            "Carota",
+            "Mela",
+            "Biscotto",
+            "Latte"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "Cosa fai di solito per spegnere le candeline di una torta?",
+          "answers": [
+            "Metti la torta in frigorifero",
+            "Soffi sulle candeline",
+            "Accendi altre candeline",
+            "Le lasci bruciare"
+          ],
+          "correct": 1
+        }
+      ]
     }
   ]
 }
