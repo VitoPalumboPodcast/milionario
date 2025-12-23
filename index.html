@@ -763,40 +763,70 @@
         if (suspenseAudio) {
           suspenseAudio.src = suspenseTrack;
         }
-        if (fourAnswersAudio) {
-          fourAnswersAudio.src = suspenseTrack;
-          playExclusiveEffect(fourAnswersAudio, { volume: 0.5, resetTime: true, loop: false });
+        const fallbackMatches = (text || "").match(/A:\s*(.*?),\s*B:\s*(.*?),\s*C:\s*(.*?),\s*D:\s*(.*)/i);
+        const fallbackAnswers = fallbackMatches ? fallbackMatches.slice(1).map(part => part.trim()) : [];
+        const answersToRead = [];
+        for (let i = 0; i < 4; i++) {
+          const btn = document.getElementById("answer" + i);
+          const label = String.fromCharCode(65 + i);
+          const textContent = btn && btn.textContent ? btn.textContent.trim() : "";
+          answersToRead.push({ label, text: textContent || fallbackAnswers[i] || "" });
         }
-        let cueCount = 0;
-        const playAnswerCue = () => {
-          playExclusiveEffect(answerCueAudio, { resetTime: true });
-        };
-        const cueInterval = setInterval(() => {
-          playAnswerCue();
-          cueCount++;
-          if (cueCount === 4) {
-            clearInterval(cueInterval);
+        const totalReadingMs = 12000;
+        const segmentMs = Math.floor(totalReadingMs / answersToRead.length);
+        const startTime = performance.now();
+
+        if (fourAnswersAudio) {
+          fourAnswersAudio.src = "Four Answers in Order -12 seconds- Who Wants to Be a Millionaire_.mp3";
+          playExclusiveEffect(fourAnswersAudio, { volume: 0.55, resetTime: true, loop: false });
+        }
+
+        const enableAnswers = () => {
+          stopAllEffects();
+          if (suspenseAudio) {
+            suspenseAudio.src = suspenseTrack;
+            playExclusiveEffect(suspenseAudio, { volume: 0.4, resetTime: true, loop: true });
           }
-        }, 3000);
-        let utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = "it-IT";
-        utterance.volume = 1;
-        utterance.onend = function() {
-          setTimeout(() => {
-            clearInterval(cueInterval);
-            stopAllEffects();
-            if (suspenseAudio) {
-              suspenseAudio.src = suspenseTrack;
-              playExclusiveEffect(suspenseAudio, { volume: 0.4, resetTime: true, loop: true });
-            }
-            allowAnswer = true;
-            for (let i = 0; i < 4; i++) {
-              document.getElementById("answer" + i).disabled = false;
-            }
-            resolve();
-          }, 3000);
+          allowAnswer = true;
+          for (let i = 0; i < 4; i++) {
+            document.getElementById("answer" + i).disabled = false;
+          }
+          resolve();
         };
-        speechSynthesis.speak(utterance);
+
+        const playCueWithoutInterrupting = () => {
+          if (!answerCueAudio) return;
+          try {
+            answerCueAudio.pause();
+            answerCueAudio.currentTime = 0;
+            answerCueAudio.play();
+          } catch (err) {
+            console.log("Riproduzione cue risposta bloccata:", err);
+          }
+        };
+
+        const scheduleNextAnswer = (index) => {
+          if (index >= answersToRead.length) {
+            const remaining = Math.max(0, totalReadingMs - (performance.now() - startTime));
+            setTimeout(enableAnswers, remaining);
+            return;
+          }
+
+          playCueWithoutInterrupting();
+          const utterance = new SpeechSynthesisUtterance(`${answersToRead[index].label}: ${answersToRead[index].text}`);
+          utterance.lang = "it-IT";
+          utterance.volume = 1;
+          utterance.rate = 0.95;
+          utterance.onend = () => {
+            const expectedElapsed = (index + 1) * segmentMs;
+            const elapsed = performance.now() - startTime;
+            const delay = Math.max(0, expectedElapsed - elapsed);
+            setTimeout(() => scheduleNextAnswer(index + 1), delay);
+          };
+          speechSynthesis.speak(utterance);
+        };
+
+        scheduleNextAnswer(0);
       });
     }
   </script>
