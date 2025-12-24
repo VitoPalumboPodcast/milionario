@@ -1209,6 +1209,436 @@
           "correct": 1
         }
       ]
+    },
+    {
+      "name": "Domande per ragazzi di 17 anni",
+      "questions": [
+        {
+          "question": "In quale anno cadde il Muro di Berlino, segnando la fine simbolica della Guerra Fredda?",
+          "answers": [
+            "1979",
+            "1989",
+            "1999",
+            "2001"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Un'equazione di secondo grado con discriminante maggiore di zero ha:",
+          "answers": [
+            "Una sola soluzione reale doppia",
+            "Nessuna soluzione reale",
+            "Due soluzioni reali distinte",
+            "Infinità di soluzioni complesse"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Chi è l'autore del romanzo \"La coscienza di Zeno\"?",
+          "answers": [
+            "Italo Svevo",
+            "Luigi Pirandello",
+            "Giovanni Verga",
+            "Gabriele D'Annunzio"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "Quale legge della fisica descrive il principio di inerzia?",
+          "answers": [
+            "Prima legge di Newton",
+            "Seconda legge di Keplero",
+            "Terza legge della termodinamica",
+            "Legge di Coulomb"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "Che cosa significa la sigla IPCC riguardo al clima?",
+          "answers": [
+            "International Program for Climate Control",
+            "Intergovernmental Panel on Climate Change",
+            "Industrial Plan for Carbon Capture",
+            "Institutional Protocol for Climate Cooperation"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Che cosa descrive il Prodotto Interno Lordo (PIL) di un Paese?",
+          "answers": [
+            "La somma delle importazioni annuali",
+            "Il valore totale dei beni e servizi prodotti internamente in un anno",
+            "La ricchezza personale media dei cittadini",
+            "Il totale delle esportazioni al netto delle tasse"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Quale molecola porta l'informazione genetica nelle cellule?",
+          "answers": [
+            "Glucosio",
+            "Proteina",
+            "DNA",
+            "ATP"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Chi è l'autore de \"Il Gattopardo\"?",
+          "answers": [
+            "Leonardo Sciascia",
+            "Giuseppe Tomasi di Lampedusa",
+            "Elsa Morante",
+            "Carlo Levi"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Quale rivoluzione ha introdotto in modo massiccio le fabbriche e le macchine a vapore nel XVIII secolo?",
+          "answers": [
+            "Rivoluzione francese",
+            "Rivoluzione americana",
+            "Rivoluzione industriale",
+            "Rivoluzione russa"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "In una democrazia rappresentativa i cittadini:",
+          "answers": [
+            "Votano solo le leggi e non i rappresentanti",
+            "Delegano a rappresentanti eletti il potere legislativo",
+            "Non hanno diritto di voto",
+            "Elegono il capo dello Stato direttamente a sorteggio"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Qual è il valore di log10(1)?",
+          "answers": [
+            "1",
+            "0",
+            "10",
+            "-1"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Quale corrente filosofica afferma che \"l'esistenza precede l'essenza\"?",
+          "answers": [
+            "Positivismo",
+            "Esistenzialismo",
+            "Stoicismo",
+            "Idealismo"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Qual è la capitale del Canada?",
+          "answers": [
+            "Toronto",
+            "Montreal",
+            "Vancouver",
+            "Ottawa"
+          ],
+          "correct": 3
+        },
+        {
+          "question": "Che cosa misura il coefficiente di attrito?",
+          "answers": [
+            "La resistenza allo scorrimento tra due superfici",
+            "La quantità di energia di un fotone",
+            "La pressione di un gas ideale",
+            "La velocità di un moto circolare uniforme"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "Qual è l'isotopo più abbondante del carbonio presente in natura?",
+          "answers": [
+            "Carbonio-12",
+            "Carbonio-13",
+            "Carbonio-14",
+            "Carbonio-15"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "Quale trattato istituì formalmente l'Unione Europea nel 1992?",
+          "answers": [
+            "Trattato di Parigi",
+            "Trattato di Roma",
+            "Trattato di Maastricht",
+            "Trattato di Lisbona"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Come viene chiamato lo schema di rime ABAB in poesia?",
+          "answers": [
+            "Rima incrociata",
+            "Rima baciata",
+            "Rima alternata",
+            "Rima invertita"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "A quale corrente artistica è associato Caravaggio?",
+          "answers": [
+            "Neoclassicismo",
+            "Barocco",
+            "Impressionismo",
+            "Cubismo"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Che cos'è l'effetto serra?",
+          "answers": [
+            "La dispersione dei raggi ultravioletti nello spazio",
+            "Il raffreddamento della superficie terrestre per il vento solare",
+            "Il riscaldamento dovuto ai gas che intrappolano il calore nell'atmosfera",
+            "L'assorbimento totale di CO2 da parte degli oceani"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Qual è la velocità della luce nel vuoto approssimata a due cifre significative?",
+          "answers": [
+            "1,5 × 10^8 m/s",
+            "2,0 × 10^6 m/s",
+            "3,0 × 10^8 m/s",
+            "1,0 × 10^5 m/s"
+          ],
+          "correct": 2
+        }
+      ]
+    },
+    {
+      "name": "Domande per ragazzi di 13 anni",
+      "questions": [
+        {
+          "question": "Qual è il pianeta più grande del Sistema Solare?",
+          "answers": [
+            "Marte",
+            "Giove",
+            "Venere",
+            "Saturno"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Chi ha creato il personaggio di Sherlock Holmes?",
+          "answers": [
+            "J.R.R. Tolkien",
+            "Arthur Conan Doyle",
+            "Agatha Christie",
+            "J.K. Rowling"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Quale strumento usi per misurare la temperatura?",
+          "answers": [
+            "Barometro",
+            "Termometro",
+            "Igrometro",
+            "Altimetro"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Su quale continente si estende il deserto del Sahara?",
+          "answers": [
+            "Asia",
+            "Africa",
+            "Europa",
+            "Australia"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Quale animale marino è noto per i suoi canti e le grandi dimensioni?",
+          "answers": [
+            "Delfino",
+            "Balena",
+            "Squalo",
+            "Medusa"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Quale parte della pianta è principalmente responsabile della fotosintesi?",
+          "answers": [
+            "Radici",
+            "Fusto",
+            "Foglie",
+            "Semi"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Quale dei seguenti numeri è un numero primo?",
+          "answers": [
+            "12",
+            "15",
+            "17",
+            "21"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Che cosa significa la parola \"download\"?",
+          "answers": [
+            "Caricare un file su Internet",
+            "Cancellare un file",
+            "Scaricare un file da Internet",
+            "Copiare un file su una penna USB"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Chi ha scritto la serie di libri di Harry Potter?",
+          "answers": [
+            "C.S. Lewis",
+            "Rick Riordan",
+            "J.K. Rowling",
+            "Roald Dahl"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Quale sport si gioca con una racchetta e una rete bassa?",
+          "answers": [
+            "Pallamano",
+            "Badminton",
+            "Tennis",
+            "Ping pong"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Cosa succede all'acqua quando supera i 100 °C al livello del mare?",
+          "answers": [
+            "Congela",
+            "Evapora e bolle",
+            "Diventa più densa",
+            "Si trasforma in ghiaccio secco"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Qual è la moneta usata in molti Paesi dell'Unione Europea?",
+          "answers": [
+            "Sterlina",
+            "Dollaro",
+            "Euro",
+            "Franco svizzero"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Quale strumento aiuta a orientarsi indicando il nord?",
+          "answers": [
+            "Bussola",
+            "Altimetro",
+            "Cronometro",
+            "GPS satellitare"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "Quale gas dell'aria respiriamo per vivere?",
+          "answers": [
+            "Anidride carbonica",
+            "Ozono",
+            "Ossigeno",
+            "Azoto liquido"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Qual è la montagna più alta d'Italia?",
+          "answers": [
+            "Gran Sasso",
+            "Monte Bianco",
+            "Monte Rosa",
+            "Monte Cervino"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Quale elemento chimico ha il simbolo Fe?",
+          "answers": [
+            "Ferro",
+            "Fluoro",
+            "Fosforo",
+            "Francio"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "In quale città si trova il Colosseo?",
+          "answers": [
+            "Napoli",
+            "Roma",
+            "Milano",
+            "Firenze"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Che cos'è un fumetto?",
+          "answers": [
+            "Un racconto scritto in versi senza immagini",
+            "Una storia raccontata con disegni e balloon",
+            "Un romanzo storico con poche illustrazioni",
+            "Un telegiornale in diretta"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Quale strumento usi per osservare le stelle da vicino?",
+          "answers": [
+            "Microscopio",
+            "Cannocchiale",
+            "Telescopio",
+            "Binocolo subacqueo"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Che forma ha il cartello stradale di stop in Italia?",
+          "answers": [
+            "Triangolare",
+            "Rettangolare",
+            "Ottagonale",
+            "Circolare"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Quanti gradi misura un angolo retto?",
+          "answers": [
+            "45°",
+            "60°",
+            "90°",
+            "120°"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Come si chiama un gruppo di stelle che forma un disegno nel cielo?",
+          "answers": [
+            "Nebulosa",
+            "Costellazione",
+            "Galassia",
+            "Meteorite"
+          ],
+          "correct": 1
+        }
+      ]
     }
   ]
 }
