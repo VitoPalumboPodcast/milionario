@@ -1639,6 +1639,131 @@
           "correct": 1
         }
       ]
+    },
+    {
+      "name": "Manga",
+      "questions": [
+        {
+          "question": "Chi è l'autore di \"One Piece\"?",
+          "answers": [
+            "Masashi Kishimoto",
+            "Hajime Isayama",
+            "Eiichiro Oda",
+            "Yoshihiro Togashi"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "In quale rivista ha debuttato \"Naruto\"?",
+          "answers": [
+            "Weekly Shōnen Jump",
+            "Monthly Afternoon",
+            "Weekly Shōnen Sunday",
+            "Bessatsu Shōnen Magazine"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "Qual è il potere che i personaggi ottengono mangiando un Frutto del Diavolo in \"One Piece\"?",
+          "answers": [
+            "La capacità di piegare il tempo",
+            "Poteri soprannaturali in cambio dell'incapacità di nuotare",
+            "Immortalità assoluta",
+            "Controllo sulle emozioni altrui"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Come si chiama l'organizzazione investigativa in cui lavora Conan Edogawa in \"Detective Conan\"?",
+          "answers": [
+            "Polizia Metropolitana di Tokyo",
+            "Agenzia Investigativa Mori",
+            "Interpol",
+            "Squadra Speciale di Osaka"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "Qual è l'oggetto che permette a Light Yagami di uccidere scrivendo un nome in \"Death Note\"?",
+          "answers": [
+            "Un quaderno",
+            "Una spada",
+            "Una fotografia",
+            "Un anello"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "In \"Fullmetal Alchemist\", quale principio regola l'alchimia e impone un prezzo equivalente per ogni scambio?",
+          "answers": [
+            "Cerchio di Trasmutazione",
+            "Legge della Conservazione",
+            "Equivalenza di scambio",
+            "Principio di Amestris"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Come si chiama la scuola frequentata da Izuku Midoriya in \"My Hero Academia\"?",
+          "answers": [
+            "U.A. High School",
+            "Shuchi'in Academy",
+            "Karakura High School",
+            "Ashford Academy"
+          ],
+          "correct": 0
+        },
+        {
+          "question": "Quale manga segue le avventure di un ragazzino orfano che sogna di diventare Hokage?",
+          "answers": [
+            "Black Clover",
+            "Naruto",
+            "Bleach",
+            "Gintama"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "In \"Attack on Titan\", come si chiama il corpo militare dedicato all'esplorazione oltre le mura?",
+          "answers": [
+            "Gendarmeria Militare",
+            "Squadra di Guarnigione",
+            "Corpo di Ricerca",
+            "Milizia Civile"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Qual è il manga in cui un ragazzo viene reincarnato in un altro mondo come uno slime?",
+          "answers": [
+            "Re:Zero",
+            "No Game No Life",
+            "That Time I Got Reincarnated as a Slime",
+            "The Rising of the Shield Hero"
+          ],
+          "correct": 2
+        },
+        {
+          "question": "Chi è l'autrice di \"Sailor Moon\"?",
+          "answers": [
+            "Clamp",
+            "Naoko Takeuchi",
+            "Rumiko Takahashi",
+            "Ai Yazawa"
+          ],
+          "correct": 1
+        },
+        {
+          "question": "In \"Hunter x Hunter\", come si chiama l'esame che Gon intende superare all'inizio della storia?",
+          "answers": [
+            "Esame dei Cavalieri",
+            "Esame per la Licenza Hunter",
+            "Esame del Brigade Rouge",
+            "Torneo del Re dei Maghi"
+          ],
+          "correct": 1
+        }
+      ]
     }
   ]
 }
