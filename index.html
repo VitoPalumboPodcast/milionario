@@ -1234,6 +1234,12 @@
       "1.000 €", "2.000 €", "4.000 €", "8.000 €", "16.000 €",  // Traguardo garantito a 16.000€ (domanda 10)
       "32.000 €", "64.000 €", "125.000 €", "500.000 €", "1.000.000 €"
     ];
+    function prizeForLevel(prizeArray, levelIndex) {
+      if (!Array.isArray(prizeArray) || prizeArray.length === 0) return "0 €";
+      if (typeof levelIndex !== "number" || levelIndex < 0) return "0 €";
+      const boundedIndex = Math.min(levelIndex, prizeArray.length - 1);
+      return prizeArray[boundedIndex];
+    }
     let currentQuestionIndex = 0;
     let currentPrizeLevel = -1;
     let pendingAnswer = null;
@@ -1273,7 +1279,8 @@
     
     async function showQuestion() {
       if (currentQuestionIndex >= activeQuestions.length) {
-        endGame(true);
+        const finalPrize = prizeForLevel(prizeLevels, currentPrizeLevel);
+        endGame(true, finalPrize, prizeLevels);
         return;
       }
       if (rulesAudio) { rulesAudio.pause(); rulesAudio.currentTime = 0; rulesAudio = null; }
@@ -1482,10 +1489,13 @@
       endGame(false, "0 €");
     }
     
-    function endGame(isWin, finalPrize = "") {
+    function endGame(isWin, finalPrize = "", prizeTrack = prizeLevels) {
       document.getElementById("quizContainer").style.display = "none";
       document.getElementById("endGameScreen").style.display = "block";
-      const resolvedPrize = isWin ? prizeLevels[prizeLevels.length - 1] : (finalPrize || "0 €");
+      const track = Array.isArray(prizeTrack) && prizeTrack.length ? prizeTrack : prizeLevels;
+      const progressIndex = correctAnswersCount > 0 ? Math.min(correctAnswersCount - 1, track.length - 1) : -1;
+      const progressPrize = prizeForLevel(track, progressIndex);
+      const resolvedPrize = finalPrize || progressPrize;
       const finalScore = correctAnswersCount * 100;
       const status = isWin ? "Vittoria" : "Sconfitta";
       const playerName = selectedPlayer || "Anonimo";
@@ -1604,7 +1614,8 @@
     
     async function showQuestion2() {
       if (currentQuestionIndex2 >= questionsData2.length) {
-        endGame(true);
+        const finalPrize = prizeForLevel(prizeLevels2, currentPrizeLevel2);
+        endGame(true, finalPrize, prizeLevels2);
         return;
       }
       if (rulesAudio) { rulesAudio.pause(); rulesAudio.currentTime = 0; rulesAudio = null; }
@@ -1690,6 +1701,7 @@
         if (answerIndex === currentQuestion2.correct) {
           btn.classList.remove("confirmed");
           btn.classList.add("correct");
+          correctAnswersCount++;
           playExclusiveEffect(correctAudio, { volume: 0.4 });
           presenterSpeak("Risposta corretta! Bravo, sei inarrestabile!");
           document.getElementById("feedback").textContent = "Risposta corretta!";
@@ -1713,7 +1725,7 @@
             } else if (currentQuestionIndex2 >= 10) {
               finalPrize = prizeLevels2[9];
             }
-            endGame(false, finalPrize);
+            endGame(false, finalPrize, prizeLevels2);
           }, 7000);
         }
       }, 7000);
